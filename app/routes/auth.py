@@ -31,7 +31,7 @@ def login():
         return redirect(url_for('main.dashboard'))
 
     if request.method == 'POST':
-        username = request.form.get('username', '').strip()
+        username = request.form.get('username', '').strip().lower()
         password = request.form.get('password', '')
 
         user = Usuario.query.filter_by(username=username).first()
@@ -52,9 +52,9 @@ def register():
         return redirect(url_for('main.dashboard'))
 
     if request.method == 'POST':
-        nome = request.form.get('nome', '').strip()
-        username = request.form.get('username', '').strip()
-        email = request.form.get('email', '').strip()
+        nome = request.form.get('nome', '').strip().lower()
+        username = request.form.get('username', '').strip().lower()
+        email = request.form.get('email', '').strip().lower()
         password = request.form.get('password', '')
         confirm = request.form.get('confirm', '')
         is_admin = request.form.get('is_admin') == 'on'

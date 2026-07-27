@@ -41,7 +41,6 @@ def dashboard():
             elif any(delta <= d for d in dias_alertas):
                 proximos.append(eq)
 
-    # Dados para gráficos
     setores = db.session.query(Equipamento.setor, db.func.count(Equipamento.id)).filter(Equipamento.baixado==False).group_by(Equipamento.setor).all()
     areas = db.session.query(Equipamento.area_patrimonial, db.func.count(Equipamento.id)).filter(Equipamento.baixado==False).group_by(Equipamento.area_patrimonial).all()
 
@@ -59,15 +58,14 @@ def equipamentos():
 
     query = Equipamento.query
 
-    # Filtros
-    filtro_setor = request.args.get('setor', '')
-    filtro_area = request.args.get('area_patrimonial', '')
-    filtro_local = request.args.get('localizacao', '')
-    filtro_equip = request.args.get('equipamento', '')
+    filtro_setor = request.args.get('setor', '').lower()
+    filtro_area = request.args.get('area_patrimonial', '').lower()
+    filtro_local = request.args.get('localizacao', '').lower()
+    filtro_equip = request.args.get('equipamento', '').lower()
     filtro_status = request.args.get('status', '')
     filtro_manutencao = request.args.get('manutencao', '')
     filtro_usuario = request.args.get('usuario_id', '')
-    busca = request.args.get('busca', '')
+    busca = request.args.get('busca', '').lower()
     ordenar = request.args.get('ordenar', 'data_inclusao')
     direcao = request.args.get('direcao', 'desc')
 
@@ -110,7 +108,6 @@ def equipamentos():
             )
         )
 
-    # Ordenação: baixados no final
     if ordenar == 'patrimonio':
         col = Equipamento.patrimonio
     elif ordenar == 'data':
@@ -135,7 +132,6 @@ def equipamentos():
 
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
 
-    # Opções para filtros
     setores = db.session.query(Equipamento.setor).distinct().all()
     areas = db.session.query(Equipamento.area_patrimonial).distinct().all()
     locais = db.session.query(Equipamento.localizacao).distinct().all()
@@ -157,23 +153,23 @@ def equipamentos():
 def equipamento_novo():
     if request.method == 'POST':
         eq = Equipamento(
-            patrimonio=request.form.get('patrimonio', ''),
+            patrimonio=request.form.get('patrimonio', '').strip().lower(),
             data_inclusao=datetime.strptime(request.form.get('data_inclusao', str(date.today())), '%Y-%m-%d').date() if request.form.get('data_inclusao') else date.today(),
             baixado=request.form.get('baixado') == 'on',
             data_baixa=datetime.strptime(request.form.get('data_baixa'), '%Y-%m-%d').date() if request.form.get('data_baixa') else None,
-            equipamento=request.form.get('equipamento', ''),
-            area_patrimonial=request.form.get('area_patrimonial', ''),
-            setor=request.form.get('setor', ''),
-            localizacao=request.form.get('localizacao', ''),
-            especificacao=request.form.get('especificacao', ''),
+            equipamento=request.form.get('equipamento', '').strip().lower(),
+            area_patrimonial=request.form.get('area_patrimonial', '').strip().lower(),
+            setor=request.form.get('setor', '').strip().lower(),
+            localizacao=request.form.get('localizacao', '').strip().lower(),
+            especificacao=request.form.get('especificacao', '').strip().lower(),
             ultima_manutencao=datetime.strptime(request.form.get('ultima_manutencao'), '%Y-%m-%d').date() if request.form.get('ultima_manutencao') else None,
             proxima_manutencao=datetime.strptime(request.form.get('proxima_manutencao'), '%Y-%m-%d').date() if request.form.get('proxima_manutencao') else None,
-            sistema_operacional=request.form.get('sistema_operacional', ''),
-            placa_mae=request.form.get('placa_mae', ''),
-            processador=request.form.get('processador', ''),
-            memoria_ram=request.form.get('memoria_ram', ''),
-            armazenamento=request.form.get('armazenamento', ''),
-            ip=request.form.get('ip', ''),
+            sistema_operacional=request.form.get('sistema_operacional', '').strip().lower(),
+            placa_mae=request.form.get('placa_mae', '').strip().lower(),
+            processador=request.form.get('processador', '').strip().lower(),
+            memoria_ram=request.form.get('memoria_ram', '').strip().lower(),
+            armazenamento=request.form.get('armazenamento', '').strip().lower(),
+            ip=request.form.get('ip', '').strip().lower(),
             usuario_id=current_user.id
         )
         db.session.add(eq)
@@ -195,23 +191,23 @@ def equipamento_editar(id):
         return redirect(url_for('main.equipamentos'))
 
     if request.method == 'POST':
-        eq.patrimonio = request.form.get('patrimonio', '')
+        eq.patrimonio = request.form.get('patrimonio', '').strip().lower()
         eq.data_inclusao = datetime.strptime(request.form.get('data_inclusao', str(date.today())), '%Y-%m-%d').date() if request.form.get('data_inclusao') else date.today()
         eq.baixado = request.form.get('baixado') == 'on'
         eq.data_baixa = datetime.strptime(request.form.get('data_baixa'), '%Y-%m-%d').date() if request.form.get('data_baixa') else None
-        eq.equipamento = request.form.get('equipamento', '')
-        eq.area_patrimonial = request.form.get('area_patrimonial', '')
-        eq.setor = request.form.get('setor', '')
-        eq.localizacao = request.form.get('localizacao', '')
-        eq.especificacao = request.form.get('especificacao', '')
+        eq.equipamento = request.form.get('equipamento', '').strip().lower()
+        eq.area_patrimonial = request.form.get('area_patrimonial', '').strip().lower()
+        eq.setor = request.form.get('setor', '').strip().lower()
+        eq.localizacao = request.form.get('localizacao', '').strip().lower()
+        eq.especificacao = request.form.get('especificacao', '').strip().lower()
         eq.ultima_manutencao = datetime.strptime(request.form.get('ultima_manutencao'), '%Y-%m-%d').date() if request.form.get('ultima_manutencao') else None
         eq.proxima_manutencao = datetime.strptime(request.form.get('proxima_manutencao'), '%Y-%m-%d').date() if request.form.get('proxima_manutencao') else None
-        eq.sistema_operacional = request.form.get('sistema_operacional', '')
-        eq.placa_mae = request.form.get('placa_mae', '')
-        eq.processador = request.form.get('processador', '')
-        eq.memoria_ram = request.form.get('memoria_ram', '')
-        eq.armazenamento = request.form.get('armazenamento', '')
-        eq.ip = request.form.get('ip', '')
+        eq.sistema_operacional = request.form.get('sistema_operacional', '').strip().lower()
+        eq.placa_mae = request.form.get('placa_mae', '').strip().lower()
+        eq.processador = request.form.get('processador', '').strip().lower()
+        eq.memoria_ram = request.form.get('memoria_ram', '').strip().lower()
+        eq.armazenamento = request.form.get('armazenamento', '').strip().lower()
+        eq.ip = request.form.get('ip', '').strip().lower()
         eq.data_atualizacao = datetime.now()
 
         db.session.commit()
@@ -248,7 +244,7 @@ def equipamento_detalhe(id):
 @login_required
 def adicionar_observacao(id):
     eq = Equipamento.query.get_or_404(id)
-    texto = request.form.get('texto', '').strip()
+    texto = request.form.get('texto', '').strip().lower()
 
     if texto:
         obs = Observacao(
@@ -303,35 +299,26 @@ def exportar_csv():
         headers={'Content-Disposition': 'attachment; filename=equipamentos.csv'}
     )
 
-
-
 @bp.route('/equipamento/<int:id>/confirmar-manutencao', methods=['POST'])
 @login_required
 def confirmar_manutencao(id):
-    """Confirma a realização da manutenção e agenda a próxima."""
     eq = Equipamento.query.get_or_404(id)
 
-    # Verificar permissão
     if not current_user.is_admin and eq.usuario_id != current_user.id:
         flash('Você não tem permissão para editar este equipamento.', 'danger')
         return redirect(url_for('main.equipamento_detalhe', id=id))
 
-    # Data da manutenção realizada (hoje)
     data_manutencao = date.today()
 
-    # Próxima manutenção: calcular com base no intervalo anterior ou padrão 6 meses
     if eq.proxima_manutencao and eq.ultima_manutencao:
-        # Calcular intervalo entre última e próxima
         intervalo = (eq.proxima_manutencao - eq.ultima_manutencao).days
         proxima = data_manutencao + timedelta(days=intervalo)
     elif eq.proxima_manutencao and eq.proxima_manutencao > data_manutencao:
-        # Usar a mesma data prevista como base de intervalo (6 meses padrão)
         intervalo = (eq.proxima_manutencao - data_manutencao).days
         if intervalo <= 0:
             intervalo = 180
         proxima = data_manutencao + timedelta(days=intervalo)
     else:
-        # Padrão: 6 meses
         proxima = data_manutencao + timedelta(days=180)
 
     eq.ultima_manutencao = data_manutencao
