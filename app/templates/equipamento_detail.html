@@ -4,82 +4,217 @@
 
 {% block content %}
 <div class="row g-4">
+    <!-- Coluna Principal -->
     <div class="col-lg-8">
+
+        <!-- Card Principal -->
         <div class="card-modern p-4">
-            <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
                 <div>
-                    <h4 class="mb-1">{{ equipamento.equipamento or 'Sem nome' }}</h4>
-                    <span class="badge bg-primary">{{ equipamento.patrimonio or 'Sem patrimônio' }}</span>
-                    {% if equipamento.baixado %}<span class="badge bg-danger">BAIXADO</span>{% endif %}
+                    <h4 class="mb-2 fw-bold">{{ equipamento.equipamento or 'Sem nome' }}</h4>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="badge bg-primary badge-modern">{{ equipamento.patrimonio or 'Sem patrimônio' }}</span>
+                        {% if equipamento.baixado %}<span class="badge bg-danger badge-modern">BAIXADO</span>{% endif %}
+                        {% if equipamento.status_manutencao == 'vencido' %}
+                            <span class="badge bg-danger badge-modern"><i class="bi bi-exclamation-triangle me-1"></i>Manutenção Vencida</span>
+                        {% elif equipamento.status_manutencao == 'proximo' %}
+                            <span class="badge bg-warning text-dark badge-modern"><i class="bi bi-bell me-1"></i>Manutenção Próxima</span>
+                        {% elif equipamento.status_manutencao == 'ok' %}
+                            <span class="badge bg-success badge-modern"><i class="bi bi-check-circle me-1"></i>Manutenção OK</span>
+                        {% else %}
+                            <span class="badge bg-secondary badge-modern"><i class="bi bi-question-circle me-1"></i>Sem Manutenção</span>
+                        {% endif %}
+                    </div>
                 </div>
-                <div>
+                <div class="d-flex gap-2">
                     {% if current_user.is_admin or equipamento.usuario_id == current_user.id %}
-                    <a href="{{ url_for('main.equipamento_editar', id=equipamento.id) }}" class="btn btn-warning-modern btn-sm"><i class="bi bi-pencil me-1"></i>Editar</a>
+                    <a href="{{ url_for('main.equipamento_editar', id=equipamento.id) }}" class="btn btn-warning-modern btn-sm">
+                        <i class="bi bi-pencil me-1"></i>Editar
+                    </a>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="row g-3">
-                <div class="col-md-4"><strong>Área:</strong> {{ equipamento.area_patrimonial or '-' }}</div>
-                <div class="col-md-4"><strong>Setor:</strong> {{ equipamento.setor or '-' }}</div>
-                <div class="col-md-4"><strong>Localização:</strong> {{ equipamento.localizacao or '-' }}</div>
-                <div class="col-md-4"><strong>SO:</strong> {{ equipamento.sistema_operacional or '-' }}</div>
-                <div class="col-md-4"><strong>Processador:</strong> {{ equipamento.processador or '-' }}</div>
-                <div class="col-md-4"><strong>RAM:</strong> {{ equipamento.memoria_ram or '-' }}</div>
-                <div class="col-md-4"><strong>Armazenamento:</strong> {{ equipamento.armazenamento or '-' }}</div>
-                <div class="col-md-4"><strong>Placa Mãe:</strong> {{ equipamento.placa_mae or '-' }}</div>
-                <div class="col-md-4"><strong>IP:</strong> {{ equipamento.ip or '-' }}</div>
-                <div class="col-md-4"><strong>Inclusão:</strong> {{ equipamento.data_inclusao.strftime('%d/%m/%Y') if equipamento.data_inclusao else '-' }}</div>
-                <div class="col-md-4"><strong>Tempo de Uso:</strong> {{ equipamento.tempo_uso_formatado }}</div>
-                <div class="col-md-4"><strong>Cadastrado por:</strong> {{ equipamento.usuario_cadastro.nome }}</div>
-                <div class="col-md-4"><strong>Última Manut.:</strong> {{ equipamento.ultima_manutencao.strftime('%d/%m/%Y') if equipamento.ultima_manutencao else '-' }}</div>
-                <div class="col-md-4"><strong>Próxima Manut.:</strong> {{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') if equipamento.proxima_manutencao else '-' }}</div>
+            <!-- Grid de Informações -->
+            <div class="row g-3 info-grid">
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-building me-1"></i>Área</span>
+                    <span class="info-value">{{ equipamento.area_patrimonial or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-diagram-3 me-1"></i>Setor</span>
+                    <span class="info-value">{{ equipamento.setor or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-geo-alt me-1"></i>Localização</span>
+                    <span class="info-value">{{ equipamento.localizacao or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-microsoft me-1"></i>Sistema Operacional</span>
+                    <span class="info-value">{{ equipamento.sistema_operacional or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-cpu me-1"></i>Processador</span>
+                    <span class="info-value">{{ equipamento.processador or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-memory me-1"></i>Memória RAM</span>
+                    <span class="info-value">{{ equipamento.memoria_ram or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-hdd me-1"></i>Armazenamento</span>
+                    <span class="info-value">{{ equipamento.armazenamento or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-motherboard me-1"></i>Placa Mãe</span>
+                    <span class="info-value">{{ equipamento.placa_mae or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-ethernet me-1"></i>IP</span>
+                    <span class="info-value">{{ equipamento.ip or '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-calendar-plus me-1"></i>Data Inclusão</span>
+                    <span class="info-value">{{ equipamento.data_inclusao.strftime('%d/%m/%Y') if equipamento.data_inclusao else '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-clock-history me-1"></i>Tempo de Uso</span>
+                    <span class="info-value text-primary fw-bold">{{ equipamento.tempo_uso_formatado }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-person me-1"></i>Cadastrado por</span>
+                    <span class="info-value">{{ equipamento.usuario_cadastro.nome }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-wrench me-1"></i>Última Manut.</span>
+                    <span class="info-value">{{ equipamento.ultima_manutencao.strftime('%d/%m/%Y') if equipamento.ultima_manutencao else '—' }}</span>
+                </div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-calendar-check me-1"></i>Próxima Manut.</span>
+                    <span class="info-value {{ 'text-danger fw-bold' if equipamento.status_manutencao == 'vencido' else 'text-warning fw-bold' if equipamento.status_manutencao == 'proximo' else '' }}">
+                        {{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') if equipamento.proxima_manutencao else '—' }}
+                    </span>
+                </div>
                 {% if equipamento.baixado %}
-                <div class="col-md-4"><strong>Data Baixa:</strong> {{ equipamento.data_baixa.strftime('%d/%m/%Y') if equipamento.data_baixa else '-' }}</div>
+                <div class="col-md-4 info-item">
+                    <span class="info-label"><i class="bi bi-calendar-x me-1"></i>Data Baixa</span>
+                    <span class="info-value text-danger">{{ equipamento.data_baixa.strftime('%d/%m/%Y') if equipamento.data_baixa else '—' }}</span>
+                </div>
                 {% endif %}
             </div>
 
             {% if equipamento.especificacao %}
-            <div class="mt-3">
-                <strong>Especificação:</strong>
-                <p class="mt-1">{{ equipamento.especificacao }}</p>
+            <div class="mt-4 especificacao-box">
+                <h6 class="mb-2"><i class="bi bi-file-text me-2"></i>Especificação</h6>
+                <p class="mb-0">{{ equipamento.especificacao }}</p>
             </div>
             {% endif %}
         </div>
 
+        <!-- Card de Manutenção -->
+        {% if not equipamento.baixado %}
+        <div class="card-modern p-4 mt-4 manutencao-card">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="manutencao-icon">
+                        <i class="bi bi-wrench-adjustable-circle"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1">Manutenção</h6>
+                        <p class="mb-0 text-muted small">
+                            {% if equipamento.proxima_manutencao %}
+                                Próxima: <strong>{{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') }}</strong>
+                                {% if equipamento.status_manutencao == 'vencido' %}
+                                    <span class="text-danger">(Vencida há {{ (date.today() - equipamento.proxima_manutencao).days }} dias)</span>
+                                {% elif equipamento.status_manutencao == 'proximo' %}
+                                    <span class="text-warning">(Em {{ (equipamento.proxima_manutencao - date.today()).days }} dias)</span>
+                                {% endif %}
+                            {% else %}
+                                Nenhuma manutenção agendada
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                {% if current_user.is_admin or equipamento.usuario_id == current_user.id %}
+                <form method="POST" action="{{ url_for('main.confirmar_manutencao', id=equipamento.id) }}" onsubmit="return confirm('Confirmar que a manutenção foi realizada hoje? A próxima manutenção será calculada automaticamente.')">
+                    <button type="submit" class="btn btn-success-modern">
+                        <i class="bi bi-check-circle me-1"></i>Confirmar Manutenção
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Card de Observações -->
         <div class="card-modern p-4 mt-4">
-            <h5 class="mb-3"><i class="bi bi-chat-left-text me-2"></i>Observações</h5>
+            <h5 class="mb-3 section-title"><i class="bi bi-chat-left-text me-2"></i>Observações</h5>
             <form method="POST" action="{{ url_for('main.adicionar_observacao', id=equipamento.id) }}">
                 <div class="input-group mb-3">
-                    <input type="text" name="texto" class="form-control-modern" placeholder="Adicionar observação..." required>
-                    <button type="submit" class="btn btn-primary-modern"><i class="bi bi-plus-lg"></i></button>
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-plus-circle text-primary"></i></span>
+                    <input type="text" name="texto" class="form-control-modern border-start-0" placeholder="Adicionar observação..." required>
+                    <button type="submit" class="btn btn-primary-modern">Adicionar</button>
                 </div>
             </form>
 
             {% if equipamento.observacoes %}
-            <div class="list-group list-group-flush">
+            <div class="observacoes-list">
                 {% for obs in equipamento.observacoes|sort(attribute='data', reverse=true) %}
-                <div class="list-group-item px-0 py-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="mb-1">{{ obs.texto }}</p>
-                            <small class="text-muted">{{ obs.usuario.nome }} - {{ obs.data.strftime('%d/%m/%Y %H:%M') }}</small>
-                        </div>
+                <div class="observacao-item">
+                    <div class="observacao-header">
+                        <span class="observacao-user"><i class="bi bi-person-circle me-1"></i>{{ obs.usuario.nome }}</span>
+                        <span class="observacao-data">{{ obs.data.strftime('%d/%m/%Y %H:%M') }}</span>
                     </div>
+                    <p class="observacao-texto mb-0">{{ obs.texto }}</p>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p class="text-muted">Nenhuma observação.</p>
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-chat-square-text display-6 opacity-25"></i>
+                <p class="mt-2 mb-0">Nenhuma observação registrada.</p>
+            </div>
             {% endif %}
         </div>
     </div>
 
+    <!-- Coluna Lateral -->
     <div class="col-lg-4">
-        <div class="card-modern p-4 text-center">
-            <i class="bi bi-clock-history display-4 text-primary"></i>
-            <h5 class="mt-2">Tempo de Uso</h5>
-            <h2 class="text-primary">{{ equipamento.tempo_uso_formatado }}</h2>
+        <!-- Card Tempo de Uso -->
+        <div class="card-modern p-4 text-center tempo-uso-card">
+            <div class="tempo-uso-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <h6 class="mt-3 mb-1 text-muted">Tempo de Uso</h6>
+            <h2 class="tempo-uso-valor">{{ equipamento.tempo_uso_formatado }}</h2>
+            <div class="tempo-uso-detalhes mt-2">
+                <span class="badge bg-light text-dark">{{ equipamento.tempo_uso.total_dias }} dias no total</span>
+            </div>
+        </div>
+
+        <!-- Card Status -->
+        <div class="card-modern p-4 mt-4 status-card">
+            <h6 class="mb-3"><i class="bi bi-activity me-2"></i>Status do Equipamento</h6>
+            <div class="status-item">
+                <span class="status-label">Situação</span>
+                <span class="badge {{ 'bg-success' if not equipamento.baixado else 'bg-danger' }}">
+                    {{ 'Ativo' if not equipamento.baixado else 'Baixado' }}
+                </span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Manutenção</span>
+                <span class="badge {{ 'bg-success' if equipamento.status_manutencao == 'ok' else 'bg-warning text-dark' if equipamento.status_manutencao == 'proximo' else 'bg-danger' if equipamento.status_manutencao == 'vencido' else 'bg-secondary' }}">
+                    {{ 'OK' if equipamento.status_manutencao == 'ok' else 'Próxima' if equipamento.status_manutencao == 'proximo' else 'Vencida' if equipamento.status_manutencao == 'vencido' else 'Não agendada' }}
+                </span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Cadastrado em</span>
+                <span class="status-value">{{ equipamento.data_criacao.strftime('%d/%m/%Y') }}</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Última atualização</span>
+                <span class="status-value">{{ equipamento.data_atualizacao.strftime('%d/%m/%Y %H:%M') }}</span>
+            </div>
         </div>
     </div>
 </div>

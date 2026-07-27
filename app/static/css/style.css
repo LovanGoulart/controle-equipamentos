@@ -1,1 +1,241 @@
-/* Estilos adicionais - o principal está inline no base.html */
+/* ============================================
+   CONTROLE DE PATRIMÔNIO - ESTILOS EXTERNOS
+   Formatação aprimorada para detalhes
+   ============================================ */
+
+/* ----- Info Grid (Detalhes do Equipamento) ----- */
+.info-grid {
+    background: linear-gradient(135deg, rgba(67,97,238,0.03) 0%, rgba(72,149,239,0.03) 100%);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 0 -4px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+    margin: 4px;
+}
+
+.info-item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(67,97,238,0.08);
+    transform: translateY(-1px);
+}
+
+.info-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.info-label i {
+    color: var(--primary);
+}
+
+.info-value {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* ----- Especificação Box ----- */
+.especificacao-box {
+    background: linear-gradient(135deg, rgba(67,97,238,0.04) 0%, rgba(72,149,239,0.04) 100%);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+}
+
+.especificacao-box h6 {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.especificacao-box p {
+    color: var(--text-main);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* ----- Card de Manutenção ----- */
+.manutencao-card {
+    background: linear-gradient(135deg, rgba(46,204,113,0.06) 0%, rgba(39,174,96,0.06) 100%);
+    border: 1px solid rgba(46,204,113,0.2);
+}
+
+.manutencao-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(46,204,113,0.3);
+}
+
+/* ----- Observações ----- */
+.section-title {
+    color: var(--primary);
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.observacoes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.observacao-item {
+    background: linear-gradient(135deg, rgba(67,97,238,0.02) 0%, rgba(72,149,239,0.02) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.2s ease;
+}
+
+.observacao-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 10px rgba(67,97,238,0.06);
+}
+
+.observacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.observacao-user {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.observacao-data {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.observacao-texto {
+    font-size: 0.92rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* ----- Tempo de Uso Card ----- */
+.tempo-uso-card {
+    background: linear-gradient(180deg, rgba(67,97,238,0.08) 0%, rgba(72,149,239,0.04) 100%);
+    border: 1px solid rgba(67,97,238,0.15);
+}
+
+.tempo-uso-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 1.8rem;
+    box-shadow: 0 6px 20px rgba(67,97,238,0.3);
+}
+
+.tempo-uso-valor {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+/* ----- Status Card ----- */
+.status-card .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-card .status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.status-value {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* ----- Botões aprimorados ----- */
+.btn-success-modern {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-success-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46,204,113,0.35);
+    color: white;
+}
+
+/* ----- Animações ----- */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card-modern {
+    animation: slideUp 0.4s ease forwards;
+}
+
+/* ----- Responsivo ----- */
+@media (max-width: 768px) {
+    .info-item {
+        padding: 8px 10px;
+    }
+
+    .manutencao-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+
+    .tempo-uso-valor {
+        font-size: 1.3rem;
+    }
+
+    .observacao-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

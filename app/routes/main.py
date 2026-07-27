@@ -303,6 +303,47 @@ def exportar_csv():
         headers={'Content-Disposition': 'attachment; filename=equipamentos.csv'}
     )
 
+
+
+@bp.route('/equipamento/<int:id>/confirmar-manutencao', methods=['POST'])
+@login_required
+def confirmar_manutencao(id):
+    """Confirma a realização da manutenção e agenda a próxima."""
+    eq = Equipamento.query.get_or_404(id)
+
+    # Verificar permissão
+    if not current_user.is_admin and eq.usuario_id != current_user.id:
+        flash('Você não tem permissão para editar este equipamento.', 'danger')
+        return redirect(url_for('main.equipamento_detalhe', id=id))
+
+    # Data da manutenção realizada (hoje)
+    data_manutencao = date.today()
+
+    # Próxima manutenção: calcular com base no intervalo anterior ou padrão 6 meses
+    if eq.proxima_manutencao and eq.ultima_manutencao:
+        # Calcular intervalo entre última e próxima
+        intervalo = (eq.proxima_manutencao - eq.ultima_manutencao).days
+        proxima = data_manutencao + timedelta(days=intervalo)
+    elif eq.proxima_manutencao and eq.proxima_manutencao > data_manutencao:
+        # Usar a mesma data prevista como base de intervalo (6 meses padrão)
+        intervalo = (eq.proxima_manutencao - data_manutencao).days
+        if intervalo <= 0:
+            intervalo = 180
+        proxima = data_manutencao + timedelta(days=intervalo)
+    else:
+        # Padrão: 6 meses
+        proxima = data_manutencao + timedelta(days=180)
+
+    eq.ultima_manutencao = data_manutencao
+    eq.proxima_manutencao = proxima
+    eq.data_atualizacao = datetime.now()
+
+    db.session.commit()
+    registrar_historico('MANUTENCAO', 'Equipamento', eq.id, 
+        f'Manutenção confirmada. Próxima: {proxima.strftime("%d/%m/%Y")}')
+    flash(f'Manutenção confirmada! Próxima agendada para {proxima.strftime("%d/%m/%Y")}.', 'success')
+    return redirect(url_for('main.equipamento_detalhe', id=id))
+
 @bp.route('/impressao')
 @login_required
 def impressao():

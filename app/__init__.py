@@ -27,6 +27,13 @@ def create_app():
         criar_admin_padrao()
         criar_config_padrao()
 
+    
+    # Context processor: disponibiliza 'date' em todos os templates
+    @app.context_processor
+    def inject_date():
+        from datetime import date
+        return dict(date=date)
+
     return app
 
 def criar_admin_padrao():
