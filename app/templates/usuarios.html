@@ -13,8 +13,8 @@
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Usuário</th>
-                    <th>E-mail</th>
+                    <th class="d-none d-md-table-cell">Usuário</th>
+                    <th class="d-none d-lg-table-cell">E-mail</th>
                     <th>Tipo</th>
                     <th>Status</th>
                     <th class="no-print">Ações</th>
@@ -23,22 +23,27 @@
             <tbody>
                 {% for u in usuarios.items %}
                 <tr>
-                    <td>{{ u.nome }}</td>
-                    <td>{{ u.username }}</td>
-                    <td>{{ u.email }}</td>
+                    <td>
+                        <span class="fw-bold">{{ u.nome }}</span>
+                        <div class="d-md-none text-muted small">{{ u.username }}</div>
+                    </td>
+                    <td class="d-none d-md-table-cell">{{ u.username }}</td>
+                    <td class="d-none d-lg-table-cell">{{ u.email }}</td>
                     <td><span class="badge bg-{{ 'danger' if u.is_admin else 'info' }}">{{ 'Admin' if u.is_admin else 'Usuário' }}</span></td>
                     <td><span class="badge bg-{{ 'success' if u.ativo else 'secondary' }}">{{ 'Ativo' if u.ativo else 'Inativo' }}</span></td>
                     <td class="no-print">
-                        <a href="{{ url_for('admin.usuario_editar', id=u.id) }}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSenha{{ u.id }}"><i class="bi bi-key"></i></button>
-                        <form method="POST" action="{{ url_for('admin.usuario_excluir', id=u.id) }}" class="d-inline" onsubmit="return confirm('Excluir este usuário?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                        </form>
+                        <div class="d-flex gap-1">
+                            <a href="{{ url_for('admin.usuario_editar', id=u.id) }}" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSenha{{ u.id }}" title="Resetar senha"><i class="bi bi-key"></i></button>
+                            <form method="POST" action="{{ url_for('admin.usuario_excluir', id=u.id) }}" class="d-inline" onsubmit="return confirm('Excluir este usuário?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
 
                 <div class="modal fade" id="modalSenha{{ u.id }}" tabindex="-1">
-                    <div class="modal-dialog modal-sm">
+                    <div class="modal-dialog modal-sm modal-dialog-centered">
                         <div class="modal-content">
                             <form method="POST" action="{{ url_for('admin.usuario_resetar_senha', id=u.id) }}">
                                 <div class="modal-header">
@@ -66,7 +71,7 @@
 
 {% if usuarios.pages > 1 %}
 <nav class="mt-4">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center flex-wrap">
         {% for p in usuarios.iter_pages() %}
             {% if p %}
             <li class="page-item {% if p == usuarios.page %}active{% endif %}"><a class="page-link" href="{{ url_for('admin.usuarios', page=p) }}">{{ p }}</a></li>

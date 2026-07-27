@@ -3,7 +3,7 @@
 {% block page_title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="row g-4 mb-4">
+<div class="row g-3 g-lg-4 mb-4">
     <div class="col-6 col-lg-3">
         <div class="card-modern stat-card">
             <i class="bi bi-pc-display stat-icon text-primary"></i>
@@ -34,32 +34,36 @@
     </div>
 </div>
 
-<div class="row g-4">
+<div class="row g-3 g-lg-4">
     <div class="col-lg-6">
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <h5 class="mb-3"><i class="bi bi-pie-chart me-2"></i>Equipamentos por Setor</h5>
-            <canvas id="chartSetores" height="200"></canvas>
+            <div class="chart-container">
+                <canvas id="chartSetores" height="200"></canvas>
+            </div>
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <h5 class="mb-3"><i class="bi bi-pie-chart me-2"></i>Equipamentos por Área</h5>
-            <canvas id="chartAreas" height="200"></canvas>
+            <div class="chart-container">
+                <canvas id="chartAreas" height="200"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="row g-4 mt-2">
+<div class="row g-3 g-lg-4 mt-1 mt-lg-2">
     <div class="col-lg-4">
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <h6 class="text-danger mb-3"><i class="bi bi-exclamation-triangle me-2"></i>Manutenções Vencidas ({{ vencidos|length }})</h6>
             {% if vencidos %}
                 <div class="list-group list-group-flush">
                 {% for eq in vencidos %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
-                        <div class="d-flex justify-content-between">
-                            <span class="small">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
-                            <span class="badge bg-danger rounded-pill">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
+                            <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
+                            <span class="badge bg-danger rounded-pill flex-shrink-0">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
                         </div>
                     </a>
                 {% endfor %}
@@ -70,15 +74,15 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <h6 class="text-warning mb-3"><i class="bi bi-bell me-2"></i>Próximas Manutenções ({{ proximos|length }})</h6>
             {% if proximos %}
                 <div class="list-group list-group-flush">
                 {% for eq in proximos %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
-                        <div class="d-flex justify-content-between">
-                            <span class="small">{{ eq.patrimonio or 'Sem patrimônio' }}</span>
-                            <span class="badge bg-warning text-dark rounded-pill">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
+                            <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }}</span>
+                            <span class="badge bg-warning text-dark rounded-pill flex-shrink-0">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
                         </div>
                     </a>
                 {% endfor %}
@@ -89,13 +93,13 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <h6 class="text-secondary mb-3"><i class="bi bi-question-circle me-2"></i>Sem Manutenção ({{ sem_manutencao|length }})</h6>
             {% if sem_manutencao %}
                 <div class="list-group list-group-flush">
                 {% for eq in sem_manutencao[:10] %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
-                        <span class="small">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
+                        <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
                     </a>
                 {% endfor %}
                 </div>
@@ -118,7 +122,7 @@ new Chart(ctxSetores, {
             backgroundColor: ['#4361ee','#4895ef','#4cc9f0','#f72585','#f9c74f','#90e0ef','#577590']
         }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } } }
 });
 
 const ctxAreas = document.getElementById('chartAreas').getContext('2d');
@@ -133,7 +137,7 @@ new Chart(ctxAreas, {
             borderRadius: 8
         }]
     },
-    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 11 } } }, x: { ticks: { font: { size: 10 } } } } }
 });
 </script>
 {% endblock %}

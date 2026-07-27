@@ -2,7 +2,7 @@
 <html lang="pt-BR" data-theme="{{ config.tema if config else 'claro' }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#4361ee">
     <title>{% block title %}Patrimônio{% endblock %} - {{ config.nome_empresa if config else 'Controle de Patrimônio' }}</title>
 
@@ -55,6 +55,7 @@
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
         }
 
         .sidebar {
@@ -69,6 +70,7 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .sidebar.collapsed { width: var(--sidebar-collapsed); }
@@ -132,6 +134,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .main-content {
@@ -153,6 +156,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            gap: 10px;
         }
 
         .toggle-btn {
@@ -161,6 +165,8 @@
             font-size: 1.5rem;
             color: var(--primary);
             cursor: pointer;
+            padding: 0;
+            line-height: 1;
         }
 
         .page-title {
@@ -168,6 +174,9 @@
             font-weight: 700;
             color: var(--text-main);
             margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .content-area { padding: 25px; }
@@ -215,6 +224,7 @@
             background: var(--bg-card);
             border-radius: 16px;
             overflow: hidden;
+            margin-bottom: 0;
         }
 
         .table-modern thead th {
@@ -229,6 +239,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            white-space: nowrap;
         }
 
         .table-modern tbody td {
@@ -348,21 +359,74 @@
         ::-webkit-scrollbar-thumb { background: #b2bec3; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #636e72; }
 
+        /* ============================================
+           RESPONSIVIDADE - TABLETS
+           ============================================ */
         @media (max-width: 991px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.show { transform: translateX(0); width: var(--sidebar-width); }
             .main-content { margin-left: 0 !important; }
             .mobile-nav { display: flex; }
             .content-area { padding-bottom: 100px; }
+
+            .stat-card { padding: 20px; }
+            .stat-card .stat-value { font-size: 1.8rem; }
+            .stat-card .stat-icon { font-size: 2.5rem; }
         }
 
-        @media (max-width: 576px) {
+        /* ============================================
+           RESPONSIVIDADE - CELULARES
+           ============================================ */
+        @media (max-width: 767px) {
             .content-area { padding: 15px; }
             .page-title { font-size: 1.1rem; }
-            .stat-card { padding: 18px; }
-            .stat-card .stat-value { font-size: 1.6rem; }
-            .table-modern { font-size: 0.8rem; }
-            .table-modern thead th, .table-modern tbody td { padding: 10px; }
+            .topbar { padding: 10px 15px; }
+
+            .stat-card { padding: 15px; }
+            .stat-card .stat-value { font-size: 1.5rem; }
+            .stat-card .stat-label { font-size: 0.7rem; }
+            .stat-card .stat-icon { font-size: 2rem; right: 10px; top: 10px; }
+
+            .table-modern thead th,
+            .table-modern tbody td {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+
+            .btn-modern { padding: 8px 14px; font-size: 0.85rem; }
+            .form-control-modern { padding: 10px 12px; font-size: 0.9rem; }
+            .badge-modern { padding: 4px 8px; font-size: 0.7rem; }
+            .alert-modern { padding: 10px 14px; font-size: 0.85rem; }
+
+            .card-modern { border-radius: 12px; }
+            .card-modern.p-4 { padding: 15px !important; }
+
+            .mobile-nav-item { font-size: 0.65rem; }
+            .mobile-nav-item i { font-size: 1.2rem; }
+
+            .pagination .page-link { padding: 6px 10px; font-size: 0.85rem; }
+
+            .dropdown-menu { width: 280px; }
+
+            canvas { max-height: 220px; }
+        }
+
+        @media (max-width: 575px) {
+            .content-area { padding: 10px; }
+            .page-title { font-size: 1rem; max-width: 150px; }
+
+            .stat-card .stat-value { font-size: 1.3rem; }
+            .stat-card .stat-label { font-size: 0.6rem; }
+
+            .table-modern { font-size: 0.75rem; }
+            .table-modern thead th,
+            .table-modern tbody td { padding: 8px 6px; }
+
+            .table-modern .btn-sm { padding: 2px 5px; font-size: 0.7rem; }
+
+            .mobile-nav { padding: 5px 0; }
+            .mobile-nav-item { font-size: 0.6rem; padding: 3px; }
+            .mobile-nav-item i { font-size: 1.1rem; margin-bottom: 2px; }
         }
 
         @media print {
@@ -448,12 +512,12 @@
                 <i class="bi bi-list"></i>
             </button>
             <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2 gap-md-3">
                 <a href="{{ url_for('main.impressao') }}" target="_blank" class="btn btn-sm btn-outline-primary no-print d-none d-md-inline-flex">
                     <i class="bi bi-printer me-1"></i> Imprimir
                 </a>
                 <div class="dropdown no-print">
-                    <button class="btn btn-link text-dark position-relative" data-bs-toggle="dropdown">
+                    <button class="btn btn-link text-dark position-relative p-1" data-bs-toggle="dropdown">
                         <i class="bi bi-bell-fill fs-5"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifCount" style="font-size:0.6rem; display:none;">0</span>
                     </button>

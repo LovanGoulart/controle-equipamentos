@@ -3,15 +3,15 @@
 {% block page_title %}Detalhes do Equipamento{% endblock %}
 
 {% block content %}
-<div class="row g-4">
+<div class="row g-3 g-lg-4">
     <!-- Coluna Principal -->
-    <div class="col-lg-8">
+    <div class="col-lg-8 order-2 order-lg-1">
 
         <!-- Card Principal -->
-        <div class="card-modern p-4">
+        <div class="card-modern p-3 p-md-4">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
-                <div>
-                    <h4 class="mb-2 fw-bold">{{ equipamento.equipamento or 'Sem nome' }}</h4>
+                <div class="flex-fill" style="min-width:0;">
+                    <h4 class="mb-2 fw-bold text-break">{{ equipamento.equipamento or 'Sem nome' }}</h4>
                     <div class="d-flex gap-2 flex-wrap">
                         <span class="badge bg-primary badge-modern">{{ equipamento.patrimonio or 'Sem patrimônio' }}</span>
                         {% if equipamento.baixado %}<span class="badge bg-danger badge-modern">BAIXADO</span>{% endif %}
@@ -26,7 +26,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-shrink-0">
                     {% if current_user.is_admin or equipamento.usuario_id == current_user.id %}
                     <a href="{{ url_for('main.equipamento_editar', id=equipamento.id) }}" class="btn btn-warning-modern btn-sm">
                         <i class="bi bi-pencil me-1"></i>Editar
@@ -36,67 +36,67 @@
             </div>
 
             <!-- Grid de Informações -->
-            <div class="row g-3 info-grid">
-                <div class="col-md-4 info-item">
+            <div class="row g-2 info-grid">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-building me-1"></i>Área</span>
                     <span class="info-value">{{ equipamento.area_patrimonial or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-diagram-3 me-1"></i>Setor</span>
                     <span class="info-value">{{ equipamento.setor or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-geo-alt me-1"></i>Localização</span>
                     <span class="info-value">{{ equipamento.localizacao or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-microsoft me-1"></i>Sistema Operacional</span>
                     <span class="info-value">{{ equipamento.sistema_operacional or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-cpu me-1"></i>Processador</span>
                     <span class="info-value">{{ equipamento.processador or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-memory me-1"></i>Memória RAM</span>
                     <span class="info-value">{{ equipamento.memoria_ram or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-hdd me-1"></i>Armazenamento</span>
                     <span class="info-value">{{ equipamento.armazenamento or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-motherboard me-1"></i>Placa Mãe</span>
                     <span class="info-value">{{ equipamento.placa_mae or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-ethernet me-1"></i>IP</span>
                     <span class="info-value">{{ equipamento.ip or '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-calendar-plus me-1"></i>Data Inclusão</span>
                     <span class="info-value">{{ equipamento.data_inclusao.strftime('%d/%m/%Y') if equipamento.data_inclusao else '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-clock-history me-1"></i>Tempo de Uso</span>
                     <span class="info-value text-primary fw-bold">{{ equipamento.tempo_uso_formatado }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-person me-1"></i>Cadastrado por</span>
                     <span class="info-value">{{ equipamento.usuario_cadastro.nome }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-wrench me-1"></i>Última Manut.</span>
                     <span class="info-value">{{ equipamento.ultima_manutencao.strftime('%d/%m/%Y') if equipamento.ultima_manutencao else '—' }}</span>
                 </div>
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-calendar-check me-1"></i>Próxima Manut.</span>
                     <span class="info-value {{ 'text-danger fw-bold' if equipamento.status_manutencao == 'vencido' else 'text-warning fw-bold' if equipamento.status_manutencao == 'proximo' else '' }}">
                         {{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') if equipamento.proxima_manutencao else '—' }}
                     </span>
                 </div>
                 {% if equipamento.baixado %}
-                <div class="col-md-4 info-item">
+                <div class="col-12 col-sm-6 col-md-4 info-item">
                     <span class="info-label"><i class="bi bi-calendar-x me-1"></i>Data Baixa</span>
                     <span class="info-value text-danger">{{ equipamento.data_baixa.strftime('%d/%m/%Y') if equipamento.data_baixa else '—' }}</span>
                 </div>
@@ -113,15 +113,15 @@
 
         <!-- Card de Manutenção -->
         {% if not equipamento.baixado %}
-        <div class="card-modern p-4 mt-4 manutencao-card">
+        <div class="card-modern p-3 p-md-4 mt-3 mt-md-4 manutencao-card">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3 flex-fill" style="min-width:0;">
                     <div class="manutencao-icon">
                         <i class="bi bi-wrench-adjustable-circle"></i>
                     </div>
-                    <div>
+                    <div class="flex-fill" style="min-width:0;">
                         <h6 class="mb-1">Manutenção</h6>
-                        <p class="mb-0 text-muted small">
+                        <p class="mb-0 text-muted small text-break">
                             {% if equipamento.proxima_manutencao %}
                                 Próxima: <strong>{{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') }}</strong>
                                 {% if equipamento.status_manutencao == 'vencido' %}
@@ -136,9 +136,9 @@
                     </div>
                 </div>
                 {% if current_user.is_admin or equipamento.usuario_id == current_user.id %}
-                <form method="POST" action="{{ url_for('main.confirmar_manutencao', id=equipamento.id) }}" onsubmit="return confirm('Confirmar que a manutenção foi realizada hoje? A próxima manutenção será calculada automaticamente.')">
-                    <button type="submit" class="btn btn-success-modern">
-                        <i class="bi bi-check-circle me-1"></i>Confirmar Manutenção
+                <form method="POST" action="{{ url_for('main.confirmar_manutencao', id=equipamento.id) }}" class="flex-shrink-0" onsubmit="return confirm('Confirmar que a manutenção foi realizada hoje? A próxima manutenção será calculada automaticamente.')">
+                    <button type="submit" class="btn btn-success-modern btn-sm">
+                        <i class="bi bi-check-circle me-1"></i>Confirmar
                     </button>
                 </form>
                 {% endif %}
@@ -147,7 +147,7 @@
         {% endif %}
 
         <!-- Card de Observações -->
-        <div class="card-modern p-4 mt-4">
+        <div class="card-modern p-3 p-md-4 mt-3 mt-md-4">
             <h5 class="mb-3 section-title"><i class="bi bi-chat-left-text me-2"></i>Observações</h5>
             <form method="POST" action="{{ url_for('main.adicionar_observacao', id=equipamento.id) }}">
                 <div class="input-group mb-3">
@@ -179,9 +179,9 @@
     </div>
 
     <!-- Coluna Lateral -->
-    <div class="col-lg-4">
+    <div class="col-lg-4 order-1 order-lg-2">
         <!-- Card Tempo de Uso -->
-        <div class="card-modern p-4 text-center tempo-uso-card">
+        <div class="card-modern p-3 p-md-4 text-center tempo-uso-card">
             <div class="tempo-uso-icon">
                 <i class="bi bi-clock-history"></i>
             </div>
@@ -193,7 +193,7 @@
         </div>
 
         <!-- Card Status -->
-        <div class="card-modern p-4 mt-4 status-card">
+        <div class="card-modern p-3 p-md-4 mt-3 mt-md-4 status-card">
             <h6 class="mb-3"><i class="bi bi-activity me-2"></i>Status do Equipamento</h6>
             <div class="status-item">
                 <span class="status-label">Situação</span>

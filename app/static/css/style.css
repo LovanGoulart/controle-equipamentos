@@ -1,6 +1,6 @@
 /* ============================================
    CONTROLE DE PATRIMÔNIO - ESTILOS EXTERNOS
-   Formatação aprimorada para detalhes
+   Responsividade completa para mobile
    ============================================ */
 
 /* ----- Info Grid (Detalhes do Equipamento) ----- */
@@ -45,6 +45,7 @@
     font-size: 0.95rem;
     color: var(--text-main);
     font-weight: 500;
+    word-break: break-word;
 }
 
 /* ----- Especificação Box ----- */
@@ -64,6 +65,7 @@
     color: var(--text-main);
     line-height: 1.7;
     white-space: pre-wrap;
+    word-break: break-word;
 }
 
 /* ----- Card de Manutenção ----- */
@@ -83,6 +85,7 @@
     color: white;
     font-size: 1.5rem;
     box-shadow: 0 4px 12px rgba(46,204,113,0.3);
+    flex-shrink: 0;
 }
 
 /* ----- Observações ----- */
@@ -136,6 +139,7 @@
     font-size: 0.92rem;
     color: var(--text-main);
     line-height: 1.5;
+    word-break: break-word;
 }
 
 /* ----- Tempo de Uso Card ----- */
@@ -172,6 +176,8 @@
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
 .status-card .status-item:last-child {
@@ -208,6 +214,11 @@
     color: white;
 }
 
+/* ----- Tabelas mobile ----- */
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+}
+
 /* ----- Animações ----- */
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -218,8 +229,10 @@
     animation: slideUp 0.4s ease forwards;
 }
 
-/* ----- Responsivo ----- */
-@media (max-width: 768px) {
+/* ============================================
+   RESPONSIVIDADE - TABLETS E DESKTOPS
+   ============================================ */
+@media (max-width: 991px) {
     .info-item {
         padding: 8px 10px;
     }
@@ -237,5 +250,427 @@
     .observacao-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE - CELULARES (até 767px)
+   ============================================ */
+@media (max-width: 767px) {
+    /* Info grid */
+    .info-grid {
+        padding: 8px;
+        margin: 0;
+    }
+
+    .info-item {
+        margin: 4px 0;
+        padding: 10px;
+    }
+
+    .info-label {
+        font-size: 0.7rem;
+    }
+
+    .info-value {
+        font-size: 0.9rem;
+    }
+
+    /* Manutenção card */
+    .manutencao-card .d-flex.align-items-center.justify-content-between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .manutencao-card .d-flex.align-items-center.gap-3 {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .manutencao-card form {
+        width: 100%;
+    }
+
+    .manutencao-card button {
+        width: 100%;
+    }
+
+    /* Especificação */
+    .especificacao-box {
+        padding: 12px 14px;
+    }
+
+    .especificacao-box p {
+        font-size: 0.9rem;
+    }
+
+    /* Observações */
+    .observacao-item {
+        padding: 10px 12px;
+    }
+
+    .observacao-texto {
+        font-size: 0.88rem;
+    }
+
+    /* Status card */
+    .status-card .status-item {
+        padding: 8px 0;
+    }
+
+    /* Badges no detalhe */
+    .badge-modern {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+
+    /* Título da página */
+    .page-title {
+        font-size: 1.1rem !important;
+    }
+
+    /* Cards de estatísticas */
+    .stat-card {
+        padding: 15px !important;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.5rem !important;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.7rem !important;
+    }
+
+    .stat-card .stat-icon {
+        font-size: 2rem !important;
+    }
+
+    /* Tabelas */
+    .table-modern thead th,
+    .table-modern tbody td {
+        padding: 10px 8px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .table-modern .btn-sm {
+        padding: 2px 6px;
+        font-size: 0.75rem;
+    }
+
+    /* Formulários */
+    .form-control-modern {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Filtros */
+    .filtros-mobile .col-6,
+    .filtros-mobile .col-12 {
+        margin-bottom: 8px;
+    }
+
+    /* Login/Register */
+    .login-card {
+        padding: 25px 20px !important;
+        margin: 10px;
+        border-radius: 16px !important;
+    }
+
+    .login-logo i {
+        font-size: 2.5rem !important;
+    }
+
+    .login-logo h2 {
+        font-size: 1.3rem !important;
+    }
+
+    .form-floating-custom input,
+    .form-floating-custom select {
+        padding: 12px 12px 12px 42px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .btn-login {
+        padding: 12px !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Paginação */
+    .pagination .page-link {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+
+    /* Mobile nav */
+    .mobile-nav-item {
+        font-size: 0.65rem;
+    }
+
+    .mobile-nav-item i {
+        font-size: 1.2rem;
+    }
+
+    /* Topbar */
+    .topbar {
+        padding: 10px 15px !important;
+    }
+
+    /* Content area */
+    .content-area {
+        padding: 15px !important;
+    }
+
+    /* Cards */
+    .card-modern {
+        border-radius: 12px !important;
+    }
+
+    .card-modern.p-4 {
+        padding: 15px !important;
+    }
+
+    /* Gráficos */
+    canvas {
+        max-height: 220px !important;
+    }
+
+    /* Lista de notificações */
+    .dropdown-menu {
+        width: 280px !important;
+    }
+
+    /* Impressão */
+    .impressao-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .impressao-header p {
+        font-size: 0.8rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE - CELULARES PEQUENOS (até 575px)
+   ============================================ */
+@media (max-width: 575px) {
+    .stat-card .stat-value {
+        font-size: 1.3rem !important;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.6rem !important;
+    }
+
+    .table-modern {
+        font-size: 0.75rem;
+    }
+
+    .table-modern thead th,
+    .table-modern tbody td {
+        padding: 8px 6px !important;
+        white-space: nowrap;
+    }
+
+    .badge-modern {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+    }
+
+    .page-title {
+        font-size: 1rem !important;
+    }
+
+    .content-area {
+        padding: 10px !important;
+    }
+
+    /* Filtros em 2 colunas no mobile pequeno */
+    .filtros-mobile .col-6 {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    /* Botões de ação na tabela */
+    .table-modern .btn-sm {
+        padding: 1px 4px;
+        font-size: 0.7rem;
+    }
+
+    .table-modern .btn-sm i {
+        font-size: 0.8rem;
+    }
+
+    /* Detalhes do equipamento - badges */
+    .d-flex.gap-2.flex-wrap {
+        gap: 4px !important;
+    }
+
+    /* Manutenção card */
+    .manutencao-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .manutencao-card h6 {
+        font-size: 0.9rem;
+    }
+
+    .manutencao-card p {
+        font-size: 0.8rem;
+    }
+
+    /* Tempo de uso */
+    .tempo-uso-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+
+    .tempo-uso-valor {
+        font-size: 1.2rem !important;
+    }
+
+    /* Status card */
+    .status-card h6 {
+        font-size: 0.85rem;
+    }
+
+    .status-label,
+    .status-value {
+        font-size: 0.8rem;
+    }
+
+    /* Login */
+    .login-card {
+        padding: 20px 15px !important;
+    }
+
+    .login-logo i {
+        font-size: 2rem !important;
+    }
+
+    .login-logo h2 {
+        font-size: 1.1rem !important;
+    }
+
+    .login-logo p {
+        font-size: 0.8rem !important;
+    }
+
+    .login-footer {
+        font-size: 0.8rem !important;
+    }
+
+    /* Formulário de equipamento */
+    .form-check-label {
+        font-size: 0.85rem;
+    }
+
+    /* Alertas */
+    .alert-modern {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Modal de senha */
+    .modal-sm {
+        margin: 10px;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+
+    .modal-header {
+        padding: 10px 15px;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .modal-footer {
+        padding: 10px 15px;
+    }
+
+    .modal-title {
+        font-size: 0.9rem;
+    }
+}
+
+/* ============================================
+   AJUSTES ESPECÍFICOS DE LAYOUT
+   ============================================ */
+
+/* Quebra de texto para células de tabela */
+.table-modern td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-modern td:first-child {
+    max-width: 120px;
+}
+
+/* Scroll suave para tabelas */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #b2bec3;
+    border-radius: 3px;
+}
+
+/* Ações em tabela - nowrap para não quebrar */
+.table-modern td.no-print {
+    white-space: nowrap;
+    min-width: 110px;
+}
+
+/* Filtros - melhor espaçamento */
+.filtros-mobile {
+    margin-bottom: 0;
+}
+
+/* Gráficos responsivos */
+.chart-container {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .chart-container {
+        height: 180px;
+    }
+}
+
+/* Lista de manutenções no dashboard */
+.list-group-item-action {
+    padding: 10px 12px;
+}
+
+@media (max-width: 767px) {
+    .list-group-item-action {
+        padding: 8px 10px;
+    }
+
+    .list-group-item-action .small {
+        font-size: 0.8rem;
+    }
+}
+
+/* Cards de relatórios */
+@media (max-width: 767px) {
+    .row.g-4 > [class*="col-"] {
+        margin-bottom: 12px;
     }
 }

@@ -3,39 +3,39 @@
 {% block page_title %}Equipamentos{% endblock %}
 
 {% block content %}
-<div class="card-modern p-4 mb-4 no-print">
+<div class="card-modern p-3 p-md-4 mb-4 no-print filtros-mobile">
     <form method="GET" action="{{ url_for('main.equipamentos') }}">
-        <div class="row g-3">
-            <div class="col-md-4">
+        <div class="row g-2 g-md-3">
+            <div class="col-12 col-md-4">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
                     <input type="text" name="busca" class="form-control-modern border-start-0" placeholder="Pesquisar..." value="{{ request.args.get('busca','') }}">
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="setor" class="form-control-modern">
-                    <option value="">Todos os setores</option>
+                    <option value="">Todos setores</option>
                     {% for s in setores %}{% if s[0] %}
                     <option value="{{ s[0] }}" {% if request.args.get('setor')==s[0] %}selected{% endif %}>{{ s[0] }}</option>
                     {% endif %}{% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="area_patrimonial" class="form-control-modern">
-                    <option value="">Todas as áreas</option>
+                    <option value="">Todas áreas</option>
                     {% for a in areas %}{% if a[0] %}
                     <option value="{{ a[0] }}" {% if request.args.get('area_patrimonial')==a[0] %}selected{% endif %}>{{ a[0] }}</option>
                     {% endif %}{% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="status" class="form-control-modern">
                     <option value="">Todos status</option>
                     <option value="ativos" {% if request.args.get('status')=='ativos' %}selected{% endif %}>Ativos</option>
                     <option value="baixados" {% if request.args.get('status')=='baixados' %}selected{% endif %}>Baixados</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="manutencao" class="form-control-modern">
                     <option value="">Manutenção</option>
                     <option value="proxima" {% if request.args.get('manutencao')=='proxima' %}selected{% endif %}>Próxima</option>
@@ -43,7 +43,7 @@
                     <option value="sem" {% if request.args.get('manutencao')=='sem' %}selected{% endif %}>Sem manutenção</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="ordenar" class="form-control-modern">
                     <option value="data_inclusao" {% if request.args.get('ordenar')=='data_inclusao' %}selected{% endif %}>Data</option>
                     <option value="patrimonio" {% if request.args.get('ordenar')=='patrimonio' %}selected{% endif %}>Patrimônio</option>
@@ -51,7 +51,7 @@
                     <option value="setor" {% if request.args.get('ordenar')=='setor' %}selected{% endif %}>Setor</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <select name="per_page" class="form-control-modern" onchange="this.form.submit()">
                     <option value="10" {% if request.args.get('per_page','25')=='10' %}selected{% endif %}>10</option>
                     <option value="25" {% if request.args.get('per_page','25')=='25' %}selected{% endif %}>25</option>
@@ -59,10 +59,10 @@
                     <option value="100" {% if request.args.get('per_page','25')=='100' %}selected{% endif %}>100</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <button type="submit" class="btn btn-primary-modern w-100"><i class="bi bi-funnel me-1"></i>Filtrar</button>
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <a href="{{ url_for('main.equipamento_novo') }}" class="btn btn-success-modern w-100"><i class="bi bi-plus-lg me-1"></i>Novo</a>
             </div>
         </div>
@@ -75,12 +75,12 @@
             <thead>
                 <tr>
                     <th>Patrimônio</th>
-                    <th>Equipamento</th>
-                    <th>Setor</th>
-                    <th>Localização</th>
-                    <th>IP</th>
-                    <th>Tempo Uso</th>
-                    <th>Manutenção</th>
+                    <th class="d-none d-md-table-cell">Equipamento</th>
+                    <th class="d-none d-sm-table-cell">Setor</th>
+                    <th class="d-none d-lg-table-cell">Localização</th>
+                    <th class="d-none d-xl-table-cell">IP</th>
+                    <th>Tempo</th>
+                    <th>Manut.</th>
                     <th class="no-print">Ações</th>
                 </tr>
             </thead>
@@ -88,37 +88,40 @@
                 {% for eq in equipamentos %}
                 <tr class="{{ 'baixado' if eq.baixado else '' }}">
                     <td>
-                        <span class="fw-bold">{{ eq.patrimonio or '-' }}</span>
-                        {% if eq.baixado %}<span class="badge bg-danger ms-1">BAIXADO</span>{% endif %}
+                        <span class="fw-bold d-block">{{ eq.patrimonio or '-' }}</span>
+                        <small class="text-muted d-md-none">{{ eq.equipamento or '-' }}</small>
+                        {% if eq.baixado %}<span class="badge bg-danger ms-1" style="font-size:0.6rem;">BAIXADO</span>{% endif %}
                     </td>
-                    <td>{{ eq.equipamento or '-' }}</td>
-                    <td>{{ eq.setor or '-' }}</td>
-                    <td>{{ eq.localizacao or '-' }}</td>
-                    <td>{{ eq.ip or '-' }}</td>
+                    <td class="d-none d-md-table-cell">{{ eq.equipamento or '-' }}</td>
+                    <td class="d-none d-sm-table-cell">{{ eq.setor or '-' }}</td>
+                    <td class="d-none d-lg-table-cell">{{ eq.localizacao or '-' }}</td>
+                    <td class="d-none d-xl-table-cell">{{ eq.ip or '-' }}</td>
                     <td>{{ eq.tempo_uso_formatado }}</td>
                     <td>
                         {% if eq.proxima_manutencao %}
                             {% if eq.status_manutencao == 'vencido' %}
-                                <span class="badge bg-danger">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
+                                <span class="badge bg-danger">{{ eq.proxima_manutencao.strftime('%d/%m') }}</span>
                             {% elif eq.status_manutencao == 'proximo' %}
-                                <span class="badge bg-warning text-dark">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
+                                <span class="badge bg-warning text-dark">{{ eq.proxima_manutencao.strftime('%d/%m') }}</span>
                             {% else %}
-                                <span class="badge bg-success">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
+                                <span class="badge bg-success">{{ eq.proxima_manutencao.strftime('%d/%m') }}</span>
                             {% endif %}
                         {% else %}
-                            <span class="badge bg-secondary">Não agendada</span>
+                            <span class="badge bg-secondary">Não agend.</span>
                         {% endif %}
                     </td>
                     <td class="no-print">
-                        <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                        {% if current_user.is_admin or eq.usuario_id == current_user.id %}
-                        <a href="{{ url_for('main.equipamento_editar', id=eq.id) }}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                        {% endif %}
-                        {% if current_user.is_admin %}
-                        <form method="POST" action="{{ url_for('main.equipamento_excluir', id=eq.id) }}" class="d-inline" onsubmit="return confirm('Excluir este equipamento?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                        </form>
-                        {% endif %}
+                        <div class="d-flex gap-1">
+                            <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="btn btn-sm btn-outline-primary" title="Ver"><i class="bi bi-eye"></i></a>
+                            {% if current_user.is_admin or eq.usuario_id == current_user.id %}
+                            <a href="{{ url_for('main.equipamento_editar', id=eq.id) }}" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
+                            {% endif %}
+                            {% if current_user.is_admin %}
+                            <form method="POST" action="{{ url_for('main.equipamento_excluir', id=eq.id) }}" class="d-inline" onsubmit="return confirm('Excluir este equipamento?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir"><i class="bi bi-trash"></i></button>
+                            </form>
+                            {% endif %}
+                        </div>
                     </td>
                 </tr>
                 {% else %}
@@ -131,7 +134,7 @@
 
 {% if pagination.pages > 1 %}
 <nav class="mt-4 no-print">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center flex-wrap">
         {% if pagination.has_prev %}
         <li class="page-item"><a class="page-link" href="{{ url_for('main.equipamentos', page=pagination.prev_num, **request.args) }}">Anterior</a></li>
         {% endif %}
@@ -149,7 +152,7 @@
 </nav>
 {% endif %}
 
-<div class="mt-3 no-print">
+<div class="mt-3 no-print d-flex flex-wrap gap-2">
     <a href="{{ url_for('main.exportar_csv') }}" class="btn btn-outline-dark btn-sm"><i class="bi bi-download me-1"></i>Exportar CSV</a>
 </div>
 {% endblock %}

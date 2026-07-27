@@ -11,7 +11,7 @@
         align-items: center;
         justify-content: center;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
+        padding: 15px;
     }
 
     .login-card {
@@ -102,6 +102,25 @@
         color: var(--primary);
         text-decoration: none;
         font-weight: 600;
+    }
+
+    @media (max-width: 575px) {
+        .login-card {
+            padding: 25px 20px;
+            border-radius: 18px;
+        }
+        .login-logo i { font-size: 2.5rem; }
+        .login-logo h2 { font-size: 1.3rem; margin-top: 10px; }
+        .login-logo p { font-size: 0.85rem; }
+        .form-floating-custom { margin-bottom: 15px; }
+        .form-floating-custom input {
+            padding: 12px 12px 12px 42px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+        }
+        .form-floating-custom i { left: 15px; font-size: 1rem; }
+        .btn-login { padding: 12px; font-size: 0.95rem; }
+        .login-footer { font-size: 0.85rem; margin-top: 20px; }
     }
 </style>
 
