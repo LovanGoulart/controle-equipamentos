@@ -34,8 +34,8 @@ def usuario_editar(id):
     user = Usuario.query.get_or_404(id)
 
     if request.method == 'POST':
-        user.nome = request.form.get('nome', '').strip()
-        user.email = request.form.get('email', '').strip()
+        user.nome = request.form.get('nome', '').strip().lower()
+        user.email = request.form.get('email', '').strip().lower()
         user.is_admin = request.form.get('is_admin') == 'on'
         user.ativo = request.form.get('ativo') == 'on'
 
@@ -87,9 +87,9 @@ def configuracoes():
     config = Configuracao.query.first()
 
     if request.method == 'POST':
-        config.nome_empresa = request.form.get('nome_empresa', 'Controle de Patrimônio')
-        config.dias_lembrete_manutencao = request.form.get('dias_lembrete', '30,15,7,1')
-        config.tema = request.form.get('tema', 'claro')
+        config.nome_empresa = request.form.get('nome_empresa', 'Controle de Patrimônio').strip().lower()
+        config.dias_lembrete_manutencao = request.form.get('dias_lembrete', '30,15,7,1').strip().lower()
+        config.tema = request.form.get('tema', 'claro').strip().lower()
         config.data_atualizacao = datetime.now()
 
         db.session.commit()
