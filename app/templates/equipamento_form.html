@@ -5,88 +5,259 @@
 {% block content %}
 <div class="card-modern p-3 p-md-4">
     <form method="POST">
-        <div class="row g-3">
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Patrimônio</label>
-                <input type="text" name="patrimonio" class="form-control-modern" value="{{ equipamento.patrimonio if equipamento else '' }}">
+        <div class="d-flex flex-column gap-2">
+            <!-- Patrimônio -->
+            <div class="form-line">
+                <label class="form-line-label" for="patrimonio">Patrimônio</label>
+                <input type="text" name="patrimonio" id="patrimonio" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.patrimonio if equipamento else '' }}"
+                       placeholder="Ex: 002346">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Data Inclusão</label>
-                <input type="date" name="data_inclusao" class="form-control-modern" value="{{ equipamento.data_inclusao.strftime('%Y-%m-%d') if equipamento and equipamento.data_inclusao else '' }}">
+            <!-- Data Inclusão -->
+            <div class="form-line">
+                <label class="form-line-label" for="data_inclusao">Data Inclusão</label>
+                <input type="date" name="data_inclusao" id="data_inclusao" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.data_inclusao.strftime('%Y-%m-%d') if equipamento and equipamento.data_inclusao else '' }}">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Equipamento</label>
-                <input type="text" name="equipamento" class="form-control-modern" value="{{ equipamento.equipamento if equipamento else '' }}">
+            <!-- Equipamento -->
+            <div class="form-line">
+                <label class="form-line-label" for="equipamento">Equipamento</label>
+                <input type="text" name="equipamento" id="equipamento" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.equipamento if equipamento else '' }}"
+                       placeholder="Ex: Computador">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Área Patrimonial</label>
-                <input type="text" name="area_patrimonial" class="form-control-modern" value="{{ equipamento.area_patrimonial if equipamento else '' }}">
+            <!-- Área Patrimonial -->
+            <div class="form-line">
+                <label class="form-line-label" for="area_patrimonial">Área Patrimonial</label>
+                <input type="text" name="area_patrimonial" id="area_patrimonial" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.area_patrimonial if equipamento else '' }}"
+                       placeholder="Ex: E102">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Setor</label>
-                <input type="text" name="setor" class="form-control-modern" value="{{ equipamento.setor if equipamento else '' }}">
+            <!-- Setor -->
+            <div class="form-line">
+                <label class="form-line-label" for="setor">Setor</label>
+                <input type="text" name="setor" id="setor" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.setor if equipamento else '' }}"
+                       placeholder="Ex: Informática">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Localização</label>
-                <input type="text" name="localizacao" class="form-control-modern" value="{{ equipamento.localizacao if equipamento else '' }}">
+            <!-- Localização -->
+            <div class="form-line">
+                <label class="form-line-label" for="localizacao">Localização</label>
+                <input type="text" name="localizacao" id="localizacao" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.localizacao if equipamento else '' }}"
+                       placeholder="Ex: Prédio principal">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Última Manutenção</label>
-                <input type="date" name="ultima_manutencao" class="form-control-modern" value="{{ equipamento.ultima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.ultima_manutencao else '' }}">
+            <!-- Última Manutenção -->
+            <div class="form-line">
+                <label class="form-line-label" for="ultima_manutencao">Última Manutenção</label>
+                <input type="date" name="ultima_manutencao" id="ultima_manutencao" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.ultima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.ultima_manutencao else '' }}">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Próxima Manutenção</label>
-                <input type="date" name="proxima_manutencao" class="form-control-modern" value="{{ equipamento.proxima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.proxima_manutencao else '' }}">
+            <!-- Próxima Manutenção -->
+            <div class="form-line">
+                <label class="form-line-label" for="proxima_manutencao">Próx. Manutenção</label>
+                <input type="date" name="proxima_manutencao" id="proxima_manutencao" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.proxima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.proxima_manutencao else '' }}">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Sistema Operacional</label>
-                <input type="text" name="sistema_operacional" class="form-control-modern" value="{{ equipamento.sistema_operacional if equipamento else '' }}">
+            <!-- Sistema Operacional -->
+            <div class="form-line">
+                <label class="form-line-label" for="sistema_operacional">Sistema Operacional</label>
+                <input type="text" name="sistema_operacional" id="sistema_operacional" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.sistema_operacional if equipamento else '' }}"
+                       placeholder="Ex: Linux Mint">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Placa Mãe</label>
-                <input type="text" name="placa_mae" class="form-control-modern" value="{{ equipamento.placa_mae if equipamento else '' }}">
+            <!-- Placa Mãe -->
+            <div class="form-line">
+                <label class="form-line-label" for="placa_mae">Placa Mãe</label>
+                <input type="text" name="placa_mae" id="placa_mae" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.placa_mae if equipamento else '' }}"
+                       placeholder="Ex: Gigabyte H310M H">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Processador</label>
-                <input type="text" name="processador" class="form-control-modern" value="{{ equipamento.processador if equipamento else '' }}">
+            <!-- Processador -->
+            <div class="form-line">
+                <label class="form-line-label" for="processador">Processador</label>
+                <input type="text" name="processador" id="processador" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.processador if equipamento else '' }}"
+                       placeholder="Ex: Intel Core I5-7400">
             </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Memória RAM</label>
-                <input type="text" name="memoria_ram" class="form-control-modern" value="{{ equipamento.memoria_ram if equipamento else '' }}">
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">Armazenamento</label>
-                <input type="text" name="armazenamento" class="form-control-modern" value="{{ equipamento.armazenamento if equipamento else '' }}">
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label">IP</label>
-                <input type="text" name="ip" class="form-control-modern" value="{{ equipamento.ip if equipamento else '' }}">
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex align-items-end">
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="checkbox" name="baixado" id="baixado" {% if equipamento and equipamento.baixado %}checked{% endif %}>
-                    <label class="form-check-label" for="baixado">Baixado</label>
+            <!-- Memória RAM -->
+            <div class="form-line">
+                <label class="form-line-label" for="memoria_ram">Memória RAM</label>
+                <div class="input-group input-pequeno">
+                    <input type="text" name="memoria_ram" id="memoria_ram" class="form-control-modern" 
+                           style="border-radius: 10px 0 0 10px;" 
+                           value="{{ equipamento.memoria_ram.replace(' GB', '').replace('GB', '').strip() if equipamento and equipamento.memoria_ram else '' }}" 
+                           placeholder="Ex: 16">
+                    <span class="input-group-text bg-light border-0 fw-bold text-muted" 
+                          style="border-radius: 0 10px 10px 0; padding: 10px 14px;">GB</span>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-3" id="divDataBaixa" style="display:{% if equipamento and equipamento.baixado %}block{% else %}none{% endif %}">
-                <label class="form-label">Data da Baixa</label>
-                <input type="date" name="data_baixa" class="form-control-modern" value="{{ equipamento.data_baixa.strftime('%Y-%m-%d') if equipamento and equipamento.data_baixa else '' }}">
+            <!-- Armazenamento -->
+            <div class="form-line">
+                <label class="form-line-label" for="armazenamento_valor">Armazenamento</label>
+                <div class="input-group input-pequeno">
+                    <input type="text" name="armazenamento_valor" id="armazenamento_valor" class="form-control-modern" 
+                           style="border-radius: 10px 0 0 10px;" 
+                           value="{{ equipamento.armazenamento.split()[0] if equipamento and equipamento.armazenamento else '' }}" 
+                           placeholder="Ex: 512">
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="armazenamento_unidade" id="unidade_gb" value="GB" 
+                               {% if not equipamento or 'TB' not in (equipamento.armazenamento or '') %}checked{% endif %}>
+                        <label class="btn btn-outline-primary" for="unidade_gb" 
+                               style="border-radius: 0; padding: 8px 14px; font-size: 0.85rem; border-left: none;">GB</label>
+                        <input type="radio" class="btn-check" name="armazenamento_unidade" id="unidade_tb" value="TB"
+                               {% if equipamento and 'TB' in equipamento.armazenamento %}checked{% endif %}>
+                        <label class="btn btn-outline-primary" for="unidade_tb" 
+                               style="border-radius: 0 10px 10px 0; padding: 8px 14px; font-size: 0.85rem;">TB</label>
+                    </div>
+                </div>
             </div>
-            <div class="col-12">
-                <label class="form-label">Especificação</label>
-                <textarea name="especificacao" class="form-control-modern" rows="3">{{ equipamento.especificacao if equipamento else '' }}</textarea>
+            <input type="hidden" name="armazenamento" id="armazenamento_completo" 
+                   value="{{ equipamento.armazenamento if equipamento else '' }}">
+            <!-- IP -->
+            <div class="form-line">
+                <label class="form-line-label" for="ip">IP</label>
+                <input type="text" name="ip" id="ip" class="form-control-modern form-line-input" maxlength="15"
+                       value="{{ equipamento.ip if equipamento else '' }}" placeholder="000.000.000.000">
             </div>
-            <div class="col-12 d-flex flex-wrap gap-2">
-                <button type="submit" class="btn btn-primary-modern"><i class="bi bi-check-lg me-1"></i>Salvar</button>
+            <!-- Baixado -->
+            <div class="form-line">
+                <label class="form-line-label" for="baixado">Baixado</label>
+                <div class="form-line-input d-flex align-items-center" style="height: 42px;">
+                    <input class="form-check-input" type="checkbox" name="baixado" id="baixado" 
+                           {% if equipamento and equipamento.baixado %}checked{% endif %}>
+                </div>
+            </div>
+            <!-- Data da Baixa -->
+            <div class="form-line" id="divDataBaixa" style="display:{% if equipamento and equipamento.baixado %}flex{% else %}none{% endif %}">
+                <label class="form-line-label" for="data_baixa">Data da Baixa</label>
+                <input type="date" name="data_baixa" id="data_baixa" class="form-control-modern form-line-input" 
+                       value="{{ equipamento.data_baixa.strftime('%Y-%m-%d') if equipamento and equipamento.data_baixa else '' }}">
+            </div>
+            <!-- Especificação -->
+            <div class="form-line">
+                <label class="form-line-label" for="especificacao">Observação:</label>
+                <textarea name="especificacao" id="especificacao" class="form-control-modern form-line-input" rows="2">{{ equipamento.especificacao if equipamento else '' }}</textarea>
+            </div>
+            <!-- Botões -->
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <button type="submit" class="btn btn-primary-modern" onclick="prepararEnvio()">
+                    <i class="bi bi-check-lg me-1"></i>Salvar
+                </button>
                 <a href="{{ url_for('main.equipamentos') }}" class="btn btn-outline-secondary">Cancelar</a>
             </div>
         </div>
     </form>
 </div>
 
+<style>
+.form-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.form-line-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 150px;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.form-line-input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* PC: RAM e Armazenamento esticam até a direita */
+.input-pequeno {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.input-pequeno .form-control-modern {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* MOBILE: RAM e Armazenamento ficam pequenos */
+@media (max-width: 767px) {
+    .input-pequeno {
+        flex: 0 0 auto;
+        width: 240px;
+    }
+    
+    .form-line-label {
+        width: 110px;
+        font-size: 0.78rem;
+    }
+    
+    .form-line {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 575px) {
+    .input-pequeno {
+        width: 180px;
+    }
+    
+    .input-pequeno .btn-outline-primary {
+        padding: 8px 10px !important;
+        font-size: 0.8rem !important;
+    }
+}
+</style>
+
 <script>
-document.getElementById('baixado').addEventListener('change', function() {
-    document.getElementById('divDataBaixa').style.display = this.checked ? 'block' : 'none';
+// Formatação automática de IP
+document.getElementById('ip').addEventListener('input', function(e) {
+    let valor = e.target.value.replace(/\D/g, '');
+    let formatado = '';
+    for (let i = 0; i < valor.length && i < 12; i++) {
+        if (i > 0 && i % 3 === 0) formatado += '.';
+        formatado += valor[i];
+    }
+    e.target.value = formatado;
 });
+
+document.getElementById('ip').addEventListener('keydown', function(e) {
+    if ([8, 46, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1 ||
+        (e.keyCode === 65 && e.ctrlKey === true) ||
+        (e.keyCode === 67 && e.ctrlKey === true) ||
+        (e.keyCode === 86 && e.ctrlKey === true) ||
+        (e.keyCode === 88 && e.ctrlKey === true)) {
+        return;
+    }
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+});
+
+// Toggle data baixa
+document.getElementById('baixado').addEventListener('change', function() {
+    let div = document.getElementById('divDataBaixa');
+    div.style.display = this.checked ? 'flex' : 'none';
+});
+
+// Preparar envio
+function prepararEnvio() {
+    let ramInput = document.getElementById('memoria_ram');
+    let ramValor = ramInput.value.trim();
+    if (ramValor && !ramValor.toUpperCase().includes('GB')) {
+        ramInput.value = ramValor + ' GB';
+    }
+    let armValor = document.getElementById('armazenamento_valor').value.trim();
+    let armUnidade = document.querySelector('input[name="armazenamento_unidade"]:checked').value;
+    if (armValor) {
+        document.getElementById('armazenamento_completo').value = armValor + ' ' + armUnidade;
+    }
+}
 </script>
 {% endblock %}
