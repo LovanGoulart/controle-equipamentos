@@ -9,22 +9,28 @@
             <thead>
                 <tr>
                     <th>Data/Hora</th>
-                    <th>Usuário</th>
+                    <th class="d-none d-md-table-cell">Usuário</th>
                     <th>Ação</th>
-                    <th>Entidade</th>
+                    <th class="d-none d-lg-table-cell">Entidade</th>
                     <th>Descrição</th>
-                    <th>IP</th>
+                    <th class="d-none d-xl-table-cell">IP</th>
                 </tr>
             </thead>
             <tbody>
                 {% for h in historico %}
                 <tr>
-                    <td>{{ h.data.strftime('%d/%m/%Y %H:%M:%S') }}</td>
-                    <td>{{ h.usuario_nome or 'Sistema' }}</td>
+                    <td>
+                        <span class="d-block">{{ h.data.strftime('%d/%m/%Y') }}</span>
+                        <small class="text-muted">{{ h.data.strftime('%H:%M:%S') }}</small>
+                    </td>
+                    <td class="d-none d-md-table-cell">{{ h.usuario_nome or 'Sistema' }}</td>
                     <td><span class="badge bg-{{ 'success' if h.acao=='CADASTRO' else 'warning' if h.acao=='EDICAO' else 'danger' if h.acao=='EXCLUSAO' else 'info' }}">{{ h.acao }}</span></td>
-                    <td>{{ h.entidade }}</td>
-                    <td>{{ h.descricao or '-' }}</td>
-                    <td>{{ h.ip or '-' }}</td>
+                    <td class="d-none d-lg-table-cell">{{ h.entidade }}</td>
+                    <td>
+                        <span class="d-md-none text-muted small d-block">{{ h.usuario_nome or 'Sistema' }}</span>
+                        {{ h.descricao or '-' }}
+                    </td>
+                    <td class="d-none d-xl-table-cell">{{ h.ip or '-' }}</td>
                 </tr>
                 {% else %}
                 <tr><td colspan="6" class="text-center py-4 text-muted">Nenhum registro.</td></tr>
@@ -36,7 +42,7 @@
 
 {% if pagination.pages > 1 %}
 <nav class="mt-4">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center flex-wrap">
         {% for p in pagination.iter_pages() %}
             {% if p %}
             <li class="page-item {% if p == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('main.historico', page=p) }}">{{ p }}</a></li>

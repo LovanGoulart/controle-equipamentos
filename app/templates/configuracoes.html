@@ -3,25 +3,29 @@
 {% block page_title %}Configurações do Sistema{% endblock %}
 
 {% block content %}
-<div class="card-modern p-4" style="max-width:600px;">
-    <form method="POST">
-        <div class="mb-3">
-            <label class="form-label">Nome da Empresa</label>
-            <input type="text" name="nome_empresa" class="form-control-modern" value="{{ config.nome_empresa }}" required>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card-modern p-3 p-md-4">
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Nome da Empresa</label>
+                    <input type="text" name="nome_empresa" class="form-control-modern" value="{{ config.nome_empresa }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dias de Lembrete (separados por vírgula)</label>
+                    <input type="text" name="dias_lembrete" class="form-control-modern" value="{{ config.dias_lembrete_manutencao }}" required>
+                    <small class="text-muted">Exemplo: 30,15,7,1</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tema</label>
+                    <select name="tema" class="form-control-modern">
+                        <option value="claro" {% if config.tema=='claro' %}selected{% endif %}>Claro</option>
+                        <option value="escuro" {% if config.tema=='escuro' %}selected{% endif %}>Escuro</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary-modern w-100 w-md-auto"><i class="bi bi-check-lg me-1"></i>Salvar Configurações</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Dias de Lembrete (separados por vírgula)</label>
-            <input type="text" name="dias_lembrete" class="form-control-modern" value="{{ config.dias_lembrete_manutencao }}" required>
-            <small class="text-muted">Exemplo: 30,15,7,1</small>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Tema</label>
-            <select name="tema" class="form-control-modern">
-                <option value="claro" {% if config.tema=='claro' %}selected{% endif %}>Claro</option>
-                <option value="escuro" {% if config.tema=='escuro' %}selected{% endif %}>Escuro</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary-modern"><i class="bi bi-check-lg me-1"></i>Salvar Configurações</button>
-    </form>
+    </div>
 </div>
 {% endblock %}
