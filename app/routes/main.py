@@ -6,6 +6,7 @@ from app.models.models import Usuario, Equipamento, Observacao, Historico, Confi
 from app.routes.auth import registrar_historico
 import csv
 import io
+from sqlalchemy import case, asc
 
 bp = Blueprint('main', __name__)
 
@@ -55,44 +56,11 @@ def dashboard():
 def equipamentos():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 25, type=int)
+    busca = request.args.get('busca', '').strip().lower()
 
     query = Equipamento.query
 
-    filtro_setor = request.args.get('setor', '').lower()
-    filtro_area = request.args.get('area_patrimonial', '').lower()
-    filtro_local = request.args.get('localizacao', '').lower()
-    filtro_equip = request.args.get('equipamento', '').lower()
-    filtro_status = request.args.get('status', '')
-    filtro_manutencao = request.args.get('manutencao', '')
-    filtro_usuario = request.args.get('usuario_id', '')
-    busca = request.args.get('busca', '').lower()
-    ordenar = request.args.get('ordenar', 'data_inclusao')
-    direcao = request.args.get('direcao', 'desc')
-
-    if filtro_setor:
-        query = query.filter(Equipamento.setor == filtro_setor)
-    if filtro_area:
-        query = query.filter(Equipamento.area_patrimonial == filtro_area)
-    if filtro_local:
-        query = query.filter(Equipamento.localizacao == filtro_local)
-    if filtro_equip:
-        query = query.filter(Equipamento.equipamento == filtro_equip)
-    if filtro_status == 'ativos':
-        query = query.filter_by(baixado=False)
-    elif filtro_status == 'baixados':
-        query = query.filter_by(baixado=True)
-    if filtro_manutencao == 'proxima':
-        hoje = date.today()
-        dias_alertas = [30, 15, 7, 1]
-        query = query.filter(Equipamento.proxima_manutencao != None)
-        query = query.filter(Equipamento.proxima_manutencao <= hoje + timedelta(days=30))
-    elif filtro_manutencao == 'vencida':
-        query = query.filter(Equipamento.proxima_manutencao < date.today())
-    elif filtro_manutencao == 'sem':
-        query = query.filter(Equipamento.proxima_manutencao == None)
-    if filtro_usuario:
-        query = query.filter_by(usuario_id=int(filtro_usuario))
-
+    # Campo de busca único
     if busca:
         busca_like = f'%{busca}%'
         query = query.filter(
@@ -108,46 +76,42 @@ def equipamentos():
             )
         )
 
-    if ordenar == 'patrimonio':
-        col = Equipamento.patrimonio
-    elif ordenar == 'data':
-        col = Equipamento.data_inclusao
-    elif ordenar == 'equipamento':
-        col = Equipamento.equipamento
-    elif ordenar == 'setor':
-        col = Equipamento.setor
-    elif ordenar == 'tempo_uso':
-        col = Equipamento.data_inclusao
-    elif ordenar == 'ultima_manutencao':
-        col = Equipamento.ultima_manutencao
-    elif ordenar == 'proxima_manutencao':
-        col = Equipamento.proxima_manutencao
-    else:
-        col = Equipamento.data_inclusao
+    # === ORDENAÇÃO POR PRIORIDADE DE MANUTENÇÃO ===
+    hoje = date.today()
+    limite_proximo = hoje + timedelta(days=30)
 
-    if direcao == 'desc':
-        col = col.desc()
+    prioridade_manutencao = case(
+        # 1 = Próxima (dentro de 30 dias, não vencida)
+        (db.and_(
+            Equipamento.proxima_manutencao.isnot(None),
+            Equipamento.proxima_manutencao >= hoje,
+            Equipamento.proxima_manutencao <= limite_proximo
+        ), 1),
+        # 2 = Vencida (passou da data)
+        (db.and_(
+            Equipamento.proxima_manutencao.isnot(None),
+            Equipamento.proxima_manutencao < hoje
+        ), 2),
+        # 3 = OK (tem data, mas está além de 30 dias)
+        (Equipamento.proxima_manutencao.isnot(None), 3),
+        # 4 = Sem manutenção agendada
+        else_=4
+    )
 
-    query = query.order_by(Equipamento.baixado.asc(), col)
+    query = query.order_by(
+        Equipamento.baixado.asc(),               # Ativos primeiro
+        asc(prioridade_manutencao),              # Próxima → Vencida → OK → Sem
+        asc(Equipamento.proxima_manutencao)      # Mesmo grupo: data mais próxima/mais antiga primeiro
+    )
 
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
-
-    setores = db.session.query(Equipamento.setor).distinct().all()
-    areas = db.session.query(Equipamento.area_patrimonial).distinct().all()
-    locais = db.session.query(Equipamento.localizacao).distinct().all()
-    equip_tipos = db.session.query(Equipamento.equipamento).distinct().all()
-    usuarios = Usuario.query.all()
-
     config = Configuracao.query.first()
 
     return render_template('equipamentos.html',
         equipamentos=pagination.items,
         pagination=pagination,
-        setores=setores, areas=areas, locais=locais,
-        equip_tipos=equip_tipos, usuarios=usuarios,
-        filtros=request.args, config=config
+        config=config
     )
-
 @bp.route('/equipamento/novo', methods=['GET', 'POST'])
 @login_required
 def equipamento_novo():
