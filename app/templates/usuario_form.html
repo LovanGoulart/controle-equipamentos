@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Histórico{% endblock %}
+{% block page_title %}Histórico de Ações{% endblock %}
+
+{% block content %}
+<div class="card-modern overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-modern mb-0">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                    <th>Entidade</th>
+                    <th>Descrição</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in historico %}
+                <tr>
+                    <td>{{ h.data.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                    <td>{{ h.usuario_nome or 'Sistema' }}</td>
+                    <td><span class="badge bg-{{ 'success' if h.acao=='CADASTRO' else 'warning' if h.acao=='EDICAO' else 'danger' if h.acao=='EXCLUSAO' else 'info' }}">{{ h.acao }}</span></td>
+                    <td>{{ h.entidade }}</td>
+                    <td>{{ h.descricao or '-' }}</td>
+                    <td>{{ h.ip or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center py-4 text-muted">Nenhum registro.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if pagination.pages > 1 %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% for p in pagination.iter_pages() %}
+            {% if p %}
+            <li class="page-item {% if p == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('main.historico', page=p) }}">{{ p }}</a></li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

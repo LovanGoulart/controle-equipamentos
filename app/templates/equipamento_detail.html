@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Detalhes do Equipamento{% endblock %}
+{% block page_title %}Detalhes do Equipamento{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-modern p-4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h4 class="mb-1">{{ equipamento.equipamento or 'Sem nome' }}</h4>
+                    <span class="badge bg-primary">{{ equipamento.patrimonio or 'Sem patrimônio' }}</span>
+                    {% if equipamento.baixado %}<span class="badge bg-danger">BAIXADO</span>{% endif %}
+                </div>
+                <div>
+                    {% if current_user.is_admin or equipamento.usuario_id == current_user.id %}
+                    <a href="{{ url_for('main.equipamento_editar', id=equipamento.id) }}" class="btn btn-warning-modern btn-sm"><i class="bi bi-pencil me-1"></i>Editar</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-4"><strong>Área:</strong> {{ equipamento.area_patrimonial or '-' }}</div>
+                <div class="col-md-4"><strong>Setor:</strong> {{ equipamento.setor or '-' }}</div>
+                <div class="col-md-4"><strong>Localização:</strong> {{ equipamento.localizacao or '-' }}</div>
+                <div class="col-md-4"><strong>SO:</strong> {{ equipamento.sistema_operacional or '-' }}</div>
+                <div class="col-md-4"><strong>Processador:</strong> {{ equipamento.processador or '-' }}</div>
+                <div class="col-md-4"><strong>RAM:</strong> {{ equipamento.memoria_ram or '-' }}</div>
+                <div class="col-md-4"><strong>Armazenamento:</strong> {{ equipamento.armazenamento or '-' }}</div>
+                <div class="col-md-4"><strong>Placa Mãe:</strong> {{ equipamento.placa_mae or '-' }}</div>
+                <div class="col-md-4"><strong>IP:</strong> {{ equipamento.ip or '-' }}</div>
+                <div class="col-md-4"><strong>Inclusão:</strong> {{ equipamento.data_inclusao.strftime('%d/%m/%Y') if equipamento.data_inclusao else '-' }}</div>
+                <div class="col-md-4"><strong>Tempo de Uso:</strong> {{ equipamento.tempo_uso_formatado }}</div>
+                <div class="col-md-4"><strong>Cadastrado por:</strong> {{ equipamento.usuario_cadastro.nome }}</div>
+                <div class="col-md-4"><strong>Última Manut.:</strong> {{ equipamento.ultima_manutencao.strftime('%d/%m/%Y') if equipamento.ultima_manutencao else '-' }}</div>
+                <div class="col-md-4"><strong>Próxima Manut.:</strong> {{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') if equipamento.proxima_manutencao else '-' }}</div>
+                {% if equipamento.baixado %}
+                <div class="col-md-4"><strong>Data Baixa:</strong> {{ equipamento.data_baixa.strftime('%d/%m/%Y') if equipamento.data_baixa else '-' }}</div>
+                {% endif %}
+            </div>
+
+            {% if equipamento.especificacao %}
+            <div class="mt-3">
+                <strong>Especificação:</strong>
+                <p class="mt-1">{{ equipamento.especificacao }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card-modern p-4 mt-4">
+            <h5 class="mb-3"><i class="bi bi-chat-left-text me-2"></i>Observações</h5>
+            <form method="POST" action="{{ url_for('main.adicionar_observacao', id=equipamento.id) }}">
+                <div class="input-group mb-3">
+                    <input type="text" name="texto" class="form-control-modern" placeholder="Adicionar observação..." required>
+                    <button type="submit" class="btn btn-primary-modern"><i class="bi bi-plus-lg"></i></button>
+                </div>
+            </form>
+
+            {% if equipamento.observacoes %}
+            <div class="list-group list-group-flush">
+                {% for obs in equipamento.observacoes|sort(attribute='data', reverse=true) %}
+                <div class="list-group-item px-0 py-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="mb-1">{{ obs.texto }}</p>
+                            <small class="text-muted">{{ obs.usuario.nome }} - {{ obs.data.strftime('%d/%m/%Y %H:%M') }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">Nenhuma observação.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card-modern p-4 text-center">
+            <i class="bi bi-clock-history display-4 text-primary"></i>
+            <h5 class="mt-2">Tempo de Uso</h5>
+            <h2 class="text-primary">{{ equipamento.tempo_uso_formatado }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro{% endblock %}
+{% block page_title %}{% endblock %}
+
+{% block content %}
+<style>
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-logo {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .login-logo i {
+        font-size: 3rem;
+        color: var(--primary);
+    }
+
+    .login-logo h2 {
+        font-weight: 700;
+        margin-top: 10px;
+        color: #2d3436;
+        font-size: 1.5rem;
+    }
+
+    .form-floating-custom {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    .form-floating-custom input, .form-floating-custom select {
+        width: 100%;
+        padding: 12px 12px 12px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+    }
+
+    .form-floating-custom input:focus, .form-floating-custom select:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+
+    .form-floating-custom i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #b2bec3;
+        font-size: 1rem;
+    }
+
+    .btn-login {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 10px;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #636e72;
+        font-size: 0.9rem;
+    }
+
+    .login-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+<div class="login-page">
+    <div class="login-card animate-in">
+        <div class="login-logo">
+            <i class="bi bi-person-plus-fill"></i>
+            <h2>Criar Conta</h2>
+        </div>
+
+        <form method="POST" action="{{ url_for('auth.register') }}">
+            <div class="form-floating-custom">
+                <i class="bi bi-person"></i>
+                <input type="text" name="nome" placeholder="Nome completo" required>
+            </div>
+
+            <div class="form-floating-custom">
+                <i class="bi bi-at"></i>
+                <input type="text" name="username" placeholder="Nome de usuário" required>
+            </div>
+
+            <div class="form-floating-custom">
+                <i class="bi bi-envelope"></i>
+                <input type="email" name="email" placeholder="E-mail" required>
+            </div>
+
+            <div class="form-floating-custom">
+                <i class="bi bi-lock"></i>
+                <input type="password" name="password" placeholder="Senha" required minlength="4">
+            </div>
+
+            <div class="form-floating-custom">
+                <i class="bi bi-lock-fill"></i>
+                <input type="password" name="confirm" placeholder="Confirmar senha" required>
+            </div>
+
+            {% if current_user.is_authenticated and current_user.is_admin %}
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+                <label class="form-check-label" for="is_admin">Administrador</label>
+            </div>
+            {% endif %}
+
+            <button type="submit" class="btn-login">
+                <i class="bi bi-person-check me-2"></i>Cadastrar
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>Já tem conta? <a href="{{ url_for('auth.login') }}">Faça login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

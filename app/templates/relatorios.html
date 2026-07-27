@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Relatórios{% endblock %}
+{% block page_title %}Relatórios{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card-modern p-4 text-center">
+            <i class="bi bi-file-earmark-spreadsheet display-3 text-success"></i>
+            <h5 class="mt-3">Exportar CSV</h5>
+            <p class="text-muted small">Exporte todos os equipamentos em formato CSV.</p>
+            <a href="{{ url_for('main.exportar_csv') }}" class="btn btn-success-modern"><i class="bi bi-download me-1"></i>Baixar CSV</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-modern p-4 text-center">
+            <i class="bi bi-printer display-3 text-primary"></i>
+            <h5 class="mt-3">Imprimir Relatório</h5>
+            <p class="text-muted small">Visualize e imprima o relatório completo.</p>
+            <a href="{{ url_for('main.impressao') }}" target="_blank" class="btn btn-primary-modern"><i class="bi bi-printer me-1"></i>Imprimir</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-modern p-4 text-center">
+            <i class="bi bi-clock-history display-3 text-warning"></i>
+            <h5 class="mt-3">Histórico</h5>
+            <p class="text-muted small">Consulte todo o histórico de ações.</p>
+            <a href="{{ url_for('main.historico') }}" class="btn btn-warning-modern"><i class="bi bi-arrow-right me-1"></i>Acessar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

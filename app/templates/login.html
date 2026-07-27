@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block page_title %}{% endblock %}
+
+{% block content %}
+<style>
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-logo i {
+        font-size: 3.5rem;
+        color: var(--primary);
+    }
+
+    .login-logo h2 {
+        font-weight: 700;
+        margin-top: 15px;
+        color: #2d3436;
+    }
+
+    .login-logo p {
+        color: #636e72;
+        margin-top: 5px;
+    }
+
+    .form-floating-custom {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .form-floating-custom input {
+        width: 100%;
+        padding: 15px 15px 15px 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+    .form-floating-custom input:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+
+    .form-floating-custom i {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #b2bec3;
+        font-size: 1.1rem;
+    }
+
+    .btn-login {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 25px;
+        color: #636e72;
+        font-size: 0.9rem;
+    }
+
+    .login-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+<div class="login-page">
+    <div class="login-card animate-in">
+        <div class="login-logo">
+            <i class="bi bi-box-seam-fill"></i>
+            <h2>Patrimônio</h2>
+            <p>Controle de Equipamentos</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            <div class="form-floating-custom">
+                <i class="bi bi-person"></i>
+                <input type="text" name="username" placeholder="Usuário" required autofocus>
+            </div>
+
+            <div class="form-floating-custom">
+                <i class="bi bi-lock"></i>
+                <input type="password" name="password" placeholder="Senha" required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>Não tem conta? <a href="{{ url_for('auth.register') }}">Cadastre-se</a></p>
+            <p class="mt-2" style="font-size:0.8rem; opacity:0.7;">Admin: admin / admin</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

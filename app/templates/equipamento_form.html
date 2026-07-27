@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if equipamento else 'Novo' }} Equipamento{% endblock %}
+{% block page_title %}{{ 'Editar' if equipamento else 'Novo' }} Equipamento{% endblock %}
+
+{% block content %}
+<div class="card-modern p-4">
+    <form method="POST">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Patrimônio</label>
+                <input type="text" name="patrimonio" class="form-control-modern" value="{{ equipamento.patrimonio if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Data Inclusão</label>
+                <input type="date" name="data_inclusao" class="form-control-modern" value="{{ equipamento.data_inclusao.strftime('%Y-%m-%d') if equipamento and equipamento.data_inclusao else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Equipamento</label>
+                <input type="text" name="equipamento" class="form-control-modern" value="{{ equipamento.equipamento if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Área Patrimonial</label>
+                <input type="text" name="area_patrimonial" class="form-control-modern" value="{{ equipamento.area_patrimonial if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Setor</label>
+                <input type="text" name="setor" class="form-control-modern" value="{{ equipamento.setor if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Localização</label>
+                <input type="text" name="localizacao" class="form-control-modern" value="{{ equipamento.localizacao if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Última Manutenção</label>
+                <input type="date" name="ultima_manutencao" class="form-control-modern" value="{{ equipamento.ultima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.ultima_manutencao else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Próxima Manutenção</label>
+                <input type="date" name="proxima_manutencao" class="form-control-modern" value="{{ equipamento.proxima_manutencao.strftime('%Y-%m-%d') if equipamento and equipamento.proxima_manutencao else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Sistema Operacional</label>
+                <input type="text" name="sistema_operacional" class="form-control-modern" value="{{ equipamento.sistema_operacional if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Placa Mãe</label>
+                <input type="text" name="placa_mae" class="form-control-modern" value="{{ equipamento.placa_mae if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Processador</label>
+                <input type="text" name="processador" class="form-control-modern" value="{{ equipamento.processador if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Memória RAM</label>
+                <input type="text" name="memoria_ram" class="form-control-modern" value="{{ equipamento.memoria_ram if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Armazenamento</label>
+                <input type="text" name="armazenamento" class="form-control-modern" value="{{ equipamento.armazenamento if equipamento else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">IP</label>
+                <input type="text" name="ip" class="form-control-modern" value="{{ equipamento.ip if equipamento else '' }}">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="baixado" id="baixado" {% if equipamento and equipamento.baixado %}checked{% endif %}>
+                    <label class="form-check-label" for="baixado">Baixado</label>
+                </div>
+            </div>
+            <div class="col-md-3" id="divDataBaixa" style="display:{% if equipamento and equipamento.baixado %}block{% else %}none{% endif %}">
+                <label class="form-label">Data da Baixa</label>
+                <input type="date" name="data_baixa" class="form-control-modern" value="{{ equipamento.data_baixa.strftime('%Y-%m-%d') if equipamento and equipamento.data_baixa else '' }}">
+            </div>
+            <div class="col-12">
+                <label class="form-label">Especificação</label>
+                <textarea name="especificacao" class="form-control-modern" rows="3">{{ equipamento.especificacao if equipamento else '' }}</textarea>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary-modern"><i class="bi bi-check-lg me-1"></i>Salvar</button>
+                <a href="{{ url_for('main.equipamentos') }}" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('baixado').addEventListener('change', function() {
+    document.getElementById('divDataBaixa').style.display = this.checked ? 'block' : 'none';
+});
+</script>
+{% endblock %}
