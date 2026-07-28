@@ -115,7 +115,7 @@
         }
 
         .sidebar-footer {
-            padding: 15px;
+            padding: 10px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
@@ -396,8 +396,14 @@
            RESPONSIVIDADE - TABLETS
            ============================================ */
         @media (max-width: 991px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.show { transform: translateX(0); width: var(--sidebar-width); }
+            .sidebar { 
+                transform: translateX(-100%);
+                padding-bottom: 70px;
+            }
+            .sidebar.show { 
+                transform: translateX(0); 
+                width: var(--sidebar-width); 
+            }
             .main-content { margin-left: 0 !important; }
             .mobile-nav { display: flex; }
             .content-area { padding-bottom: 100px; }
@@ -595,20 +601,20 @@
 
     {% if current_user.is_authenticated %}
     <nav class="mobile-nav d-lg-none">
-        <a href="{{ url_for('main.dashboard') }}" class="mobile-nav-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
-            <i class="bi bi-speedometer2"></i>Dashboard
-        </a>
-        <a href="{{ url_for('main.equipamentos') }}" class="mobile-nav-item {% if request.endpoint.startswith('main.equipamento') %}active{% endif %}">
-            <i class="bi bi-pc-display"></i>Equip.
-        </a>
-        <a href="{{ url_for('main.equipamento_novo') }}" class="mobile-nav-item">
-            <i class="bi bi-plus-circle-fill" style="font-size:1.8rem; color:var(--primary);"></i>Novo
-        </a>
         <a href="{{ url_for('main.historico') }}" class="mobile-nav-item {% if request.endpoint == 'main.historico' %}active{% endif %}">
             <i class="bi bi-clock-history"></i>Hist.
         </a>
         <a href="{{ url_for('main.relatorios') }}" class="mobile-nav-item {% if request.endpoint == 'main.relatorios' %}active{% endif %}">
             <i class="bi bi-graph-up"></i>Rel.
+        </a>
+        <a href="{{ url_for('main.equipamento_novo') }}" class="mobile-nav-item">
+            <i class="bi bi-plus-circle-fill" style="font-size:1.8rem; color:var(--primary);"></i>Novo
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" class="mobile-nav-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
+            <i class="bi bi-speedometer2"></i>Dash.
+        </a>
+        <a href="{{ url_for('main.equipamentos') }}" class="mobile-nav-item {% if request.endpoint.startswith('main.equipamento') %}active{% endif %}">
+            <i class="bi bi-pc-display"></i>Equip.
         </a>
     </nav>
     {% endif %}
