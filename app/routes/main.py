@@ -224,6 +224,23 @@ def adicionar_observacao(id):
 
     return redirect(url_for('main.equipamento_detalhe', id=id))
 
+@bp.route('/observacao/<int:id>/excluir', methods=['POST'])
+@login_required
+def excluir_observacao(id):
+    obs = Observacao.query.get_or_404(id)
+    equipamento_id = obs.equipamento_id
+
+    # Só admin ou quem criou pode excluir
+    if not current_user.is_admin and obs.usuario_id != current_user.id:
+        flash('Você não tem permissão para excluir esta observação.', 'danger')
+        return redirect(url_for('main.equipamento_detalhe', id=equipamento_id))
+
+    db.session.delete(obs)
+    db.session.commit()
+    registrar_historico('EXCLUSAO', 'Observacao', id, f'Observação excluída do equipamento {equipamento_id}')
+    flash('Observação excluída com sucesso!', 'success')
+    return redirect(url_for('main.equipamento_detalhe', id=equipamento_id))
+
 @bp.route('/historico')
 @login_required
 def historico():

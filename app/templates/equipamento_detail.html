@@ -4,14 +4,16 @@
 
 {% block content %}
 <div class="row g-3 g-lg-4">
-    <!-- Coluna Principal -->
-    <div class="col-lg-8 order-2 order-lg-1">
 
-        <!-- Card Principal -->
+    <!-- ============================================
+         CARD PRINCIPAL + GRID DE INFORMAÇÕES
+         Mobile: 1º  |  Desktop: 1º (esquerda, topo)
+         ============================================ -->
+    <div class="col-12 col-lg-8 order-1 order-lg-1">
         <div class="card-modern p-3 p-md-4">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
                 <div class="flex-fill" style="min-width:0;">
-                    <h4 class="mb-2 fw-bold text-break">{{ equipamento.equipamento or 'Sem nome' }}</h4>
+                    <h1 class="mb-2 fw-bold text-break">{{ equipamento.equipamento or 'Sem nome' }}</h1><br>
                     <div class="d-flex gap-2 flex-wrap">
                         <span class="badge bg-primary badge-modern">{{ equipamento.patrimonio or 'Sem patrimônio' }}</span>
                         {% if equipamento.baixado %}<span class="badge bg-danger badge-modern">BAIXADO</span>{% endif %}
@@ -82,15 +84,15 @@
                     <span class="info-value text-primary fw-bold">{{ equipamento.tempo_uso_formatado }}</span>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 info-item">
-                    <span class="info-label"><i class="bi bi-person me-1"></i>Cadastrado por</span>
+                    <span class="info-label"><i class="bi bi-person me-1"></i>Cadastrado por:</span>
                     <span class="info-value">{{ equipamento.usuario_cadastro.nome }}</span>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 info-item">
-                    <span class="info-label"><i class="bi bi-wrench me-1"></i>Última Manut.</span>
+                    <span class="info-label"><i class="bi bi-wrench me-1"></i>Última Manutenção</span>
                     <span class="info-value">{{ equipamento.ultima_manutencao.strftime('%d/%m/%Y') if equipamento.ultima_manutencao else '—' }}</span>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 info-item">
-                    <span class="info-label"><i class="bi bi-calendar-check me-1"></i>Próxima Manut.</span>
+                    <span class="info-label"><i class="bi bi-calendar-check me-1"></i>Próxima Manutenção</span>
                     <span class="info-value {{ 'text-danger fw-bold' if equipamento.status_manutencao == 'vencido' else 'text-warning fw-bold' if equipamento.status_manutencao == 'proximo' else '' }}">
                         {{ equipamento.proxima_manutencao.strftime('%d/%m/%Y') if equipamento.proxima_manutencao else '—' }}
                     </span>
@@ -105,15 +107,20 @@
 
             {% if equipamento.especificacao %}
             <div class="mt-4 especificacao-box">
-                <h6 class="mb-2"><i class="bi bi-file-text me-2"></i>Especificação</h6>
+                <h6 class="mb-2"><i class="bi bi-file-text me-2"></i>Observação:</h6>
                 <p class="mb-0">{{ equipamento.especificacao }}</p>
             </div>
             {% endif %}
         </div>
+    </div>
 
-        <!-- Card de Manutenção -->
-        {% if not equipamento.baixado %}
-        <div class="card-modern p-3 p-md-4 mt-3 mt-md-4 manutencao-card">
+    <!-- ============================================
+         CARD DE MANUTENÇÃO
+         Mobile: 2º  |  Desktop: 3º (abaixo do principal)
+         ============================================ -->
+    {% if not equipamento.baixado %}
+    <div class="col-12 col-lg-8 order-2 order-lg-3">
+        <div class="card-modern p-3 p-md-4 manutencao-card">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3 flex-fill" style="min-width:0;">
                     <div class="manutencao-icon">
@@ -144,10 +151,15 @@
                 {% endif %}
             </div>
         </div>
-        {% endif %}
+    </div>
+    {% endif %}
 
-        <!-- Card de Observações -->
-        <div class="card-modern p-3 p-md-4 mt-3 mt-md-4">
+    <!-- ============================================
+         CARD DE OBSERVAÇÕES (com botão deletar)
+         Mobile: 3º  |  Desktop: 4º (abaixo de tudo)
+         ============================================ -->
+    <div class="col-12 col-lg-8 order-3 order-lg-4">
+        <div class="card-modern p-3 p-md-4">
             <h5 class="mb-3 section-title"><i class="bi bi-chat-left-text me-2"></i>Observações</h5>
             <form method="POST" action="{{ url_for('main.adicionar_observacao', id=equipamento.id) }}">
                 <div class="input-group mb-3">
@@ -162,8 +174,17 @@
                 {% for obs in equipamento.observacoes|sort(attribute='data', reverse=true) %}
                 <div class="observacao-item">
                     <div class="observacao-header">
-                        <span class="observacao-user"><i class="bi bi-person-circle me-1"></i>{{ obs.usuario.nome }}</span>
-                        <span class="observacao-data">{{ obs.data.strftime('%d/%m/%Y %H:%M') }}</span>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="observacao-user"><i class="bi bi-person-circle me-1"></i>{{ obs.usuario.nome }}</span>
+                            <span class="observacao-data">{{ obs.data.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </div>
+                        {% if current_user.is_admin or obs.usuario_id == current_user.id %}
+                        <form method="POST" action="{{ url_for('main.excluir_observacao', id=obs.id) }}" class="m-0" onsubmit="return confirm('Tem certeza que deseja excluir esta observação?')">
+                            <button type="submit" class="btn btn-link text-danger p-0 ms-2" style="font-size:0.8rem;" title="Excluir observação">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                        {% endif %}
                     </div>
                     <p class="observacao-texto mb-0">{{ obs.texto }}</p>
                 </div>
@@ -178,8 +199,11 @@
         </div>
     </div>
 
-    <!-- Coluna Lateral -->
-    <div class="col-lg-4 order-1 order-lg-2">
+    <!-- ============================================
+         COLUNA LATERAL (Tempo de Uso + Status)
+         Mobile: 4º (último)  |  Desktop: 2º (direita, topo)
+         ============================================ -->
+    <div class="col-12 col-lg-4 order-4 order-lg-2">
         <!-- Card Tempo de Uso -->
         <div class="card-modern p-3 p-md-4 text-center tempo-uso-card">
             <div class="tempo-uso-icon">
@@ -217,5 +241,6 @@
             </div>
         </div>
     </div>
+
 </div>
 {% endblock %}

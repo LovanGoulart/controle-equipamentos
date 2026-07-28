@@ -61,7 +61,7 @@
             </div>
             <!-- Sistema Operacional -->
             <div class="form-line">
-                <label class="form-line-label" for="sistema_operacional">Sistema Operacional</label>
+                <label class="form-line-label" for="sistema_operacional">S. Operacional</label>
                 <input type="text" name="sistema_operacional" id="sistema_operacional" class="form-control-modern form-line-input" 
                        value="{{ equipamento.sistema_operacional if equipamento else '' }}"
                        placeholder="Ex: Linux Mint">
@@ -116,9 +116,9 @@
                    value="{{ equipamento.armazenamento if equipamento else '' }}">
             <!-- IP -->
             <div class="form-line">
-                <label class="form-line-label" for="ip">IP</label>
+                <label class="form-line-label" for="ip">Internet Protocol</label>
                 <input type="text" name="ip" id="ip" class="form-control-modern form-line-input" maxlength="15"
-                       value="{{ equipamento.ip if equipamento else '' }}" placeholder="000.000.000.000">
+                       value="{{ equipamento.ip if equipamento else '' }}" placeholder="Ex: 010.000.001.001">
             </div>
             <!-- Baixado -->
             <div class="form-line">
