@@ -7,6 +7,9 @@ from app.routes.auth import registrar_historico
 import csv
 import io
 from sqlalchemy import case, asc
+from flask import send_from_directory
+import os
+
 
 bp = Blueprint('main', __name__)
 
@@ -112,6 +115,7 @@ def equipamentos():
         pagination=pagination,
         config=config
     )
+
 @bp.route('/equipamento/novo', methods=['GET', 'POST'])
 @login_required
 def equipamento_novo():
@@ -318,3 +322,24 @@ def impressao():
     equipamentos = Equipamento.query.filter_by(baixado=False).order_by(Equipamento.data_inclusao.desc()).all()
     config = Configuracao.query.first()
     return render_template('impressao.html', equipamentos=equipamentos, config=config, data_impressao=datetime.now())
+
+@bp.route('/manifest.json')
+def manifest():
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static'),
+        'manifest.json',
+        mimetype='application/json'
+    )
+
+@bp.route('/service-worker.js')
+def service_worker():
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static'),
+        'service-worker.js',
+        mimetype='application/javascript'
+    )
+
+@bp.route('/offline.html')
+def offline():
+    config = Configuracao.query.first()
+    return render_template('offline.html', config=config)
