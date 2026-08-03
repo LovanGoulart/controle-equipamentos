@@ -62,7 +62,9 @@
                 {% for eq in vencidos %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
-                            <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
+                            <span class="small text-break">
+                                {{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }} - {{ eq.area_patrimonial or 'Sem nome' }} - {{ eq.localizacao or 'Sem nome' }}
+                            </span>
                             <span class="badge bg-danger rounded-pill flex-shrink-0">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
                         </div>
                     </a>
@@ -81,7 +83,9 @@
                 {% for eq in proximos %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
-                            <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }}</span>
+                            <span class="small text-break">
+                                {{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }} - {{ eq.area_patrimonial or 'Sem nome' }} - {{ eq.localizacao or 'Sem nome' }}
+                            </span>
                             <span class="badge bg-warning text-dark rounded-pill flex-shrink-0">{{ eq.proxima_manutencao.strftime('%d/%m/%Y') }}</span>
                         </div>
                     </a>
@@ -99,7 +103,9 @@
                 <div class="list-group list-group-flush">
                 {% for eq in sem_manutencao[:10] %}
                     <a href="{{ url_for('main.equipamento_detalhe', id=eq.id) }}" class="list-group-item list-group-item-action px-0 py-2">
-                        <span class="small text-break">{{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }}</span>
+                            <span class="small text-break">
+                                {{ eq.patrimonio or 'Sem patrimônio' }} - {{ eq.equipamento or 'Sem nome' }} - {{ eq.area_patrimonial or 'Sem nome' }} - {{ eq.localizacao or 'Sem nome' }}
+                            </span>
                     </a>
                 {% endfor %}
                 </div>
