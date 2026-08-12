@@ -1,0 +1,20 @@
+# Arquivos compilados do Python
+__pycache__/
+*.py[cod]
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Banco de dados SQLite
+instance/*.db
+
+# Configurações locais
+.env
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
